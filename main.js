@@ -273,12 +273,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Disparar la animación de texto del Hero al terminar la terminal
         startHeroTyping();
 
-        // Desbloquear scroll y mostrar flecha + nav
+        // Desbloquear scroll y mostrar flecha + nav + lang switcher
         document.body.classList.remove('no-scroll');
         const scrollArrow = document.querySelector('.scroll-down-icon');
         if (scrollArrow) scrollArrow.classList.add('show');
         const iconNav = document.getElementById('icon-nav');
         if (iconNav) iconNav.classList.add('show');
+        const langSwitcher = document.querySelector('.lang-switcher');
+        if (langSwitcher) langSwitcher.classList.add('show');
       }
     };
 
@@ -383,5 +385,107 @@ document.addEventListener("DOMContentLoaded", () => {
     sections.forEach(section => spyObserver.observe(section));
   }
 
+  // --- Lógica de cambio de idioma ---
+  const translations = {
+    en: {
+      hero_role: "Full Stack Developer",
+      profile_role: "Web Developer",
+      contact_btn: "Contact Me",
+      about_title: "ABOUT ME",
+      about_p1: "Hello! I'm Alex Alvez, a graduated <strong>Systems Analyst</strong> and passionate Web Developer from Argentina. I specialize in building responsive and interactive web applications using modern technologies. My journey in tech is driven by a strong desire to create seamless, user-centric experiences.",
+      about_p2: "Currently, I'm in the fourth year of a <strong>Bachelor's Degree in Systems</strong>, which provides me with a solid foundation in computer science principles and software engineering practices. I thrive in collaborative environments and I am always looking to learn new tools and frameworks to stay updated with the latest trends in web development.",
+      edu_analyst_title: "Graduated: Systems Analyst",
+      edu_bachelor_title: "In Progress: Bachelor's Degree in Systems",
+      skills_title: "SOFT SKILLS & INTERESTS",
+      skill_teamwork: "TEAMWORK",
+      skill_comm: "COMMUNICATION",
+      skill_agile: "AGILE METHODOLOGIES",
+      skill_proactive: "PROACTIVITY",
+      skill_adapt: "ADAPTABILITY",
+      download_cv: "DOWNLOAD CV",
+      tech_title: "TECH STACK",
+      tech_ai_tools: "AI TOOLS",
+      tech_tools: "TOOLS",
+      projects_title: "MY PROJECTS",
+      proj1_desc: "Premium landing page for a technology company featuring an interactive 3D hero, real-time business status, and a modern aesthetic.",
+      proj2_desc: "Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.",
+      proj3_desc: "Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.",
+      visit_site: "Visit Site"
+    },
+    es: {
+      hero_role: "Desarrollador Full Stack",
+      profile_role: "Desarrollador Web",
+      contact_btn: "Contáctame",
+      about_title: "SOBRE MÍ",
+      about_p1: "¡Hola! Soy Alex Alvez, un <strong>Analista de Sistemas</strong> recibido y un apasionado Desarrollador Web de Argentina. Me especializo en crear aplicaciones web responsivas e interactivas utilizando tecnologías modernas. Mi viaje en la tecnología está impulsado por un fuerte deseo de crear experiencias de usuario fluidas.",
+      about_p2: "Actualmente estoy en el cuarto año de la <strong>Licenciatura en Sistemas</strong>, lo cual me proporciona una base sólida en principios de ciencias de la computación y prácticas de ingeniería de software. Me desenvuelvo muy bien en entornos colaborativos y siempre busco aprender nuevas herramientas para mantenerme actualizado con las últimas tendencias del desarrollo web.",
+      edu_analyst_title: "Recibido: Analista de Sistemas",
+      edu_bachelor_title: "En Curso: Licenciatura en Sistemas",
+      skills_title: "HABILIDADES BLANDAS E INTERESES",
+      skill_teamwork: "TRABAJO EN EQUIPO",
+      skill_comm: "COMUNICACIÓN",
+      skill_agile: "METODOLOGÍAS ÁGILES",
+      skill_proactive: "PROACTIVIDAD",
+      skill_adapt: "ADAPTABILIDAD",
+      download_cv: "DESCARGAR CV",
+      tech_title: "TECNOLOGÍAS",
+      tech_ai_tools: "HERRAMIENTAS IA",
+      tech_tools: "HERRAMIENTAS",
+      projects_title: "MIS PROYECTOS",
+      proj1_desc: "Landing page premium para una empresa de tecnología con un hero 3D interactivo, estado de la empresa en tiempo real y una estética moderna.",
+      proj2_desc: "Administrador de tareas Full Stack con autenticación, CRUD completo, API REST y UI dinámica en modo oscuro.",
+      proj3_desc: "E-commerce completo con integración de Mercado Pago y Google, carrito de compras, seguimiento de envíos y panel de administración.",
+      visit_site: "Visitar Sitio"
+    }
+  };
+
+  const btnEn = document.getElementById('btn-en');
+  const btnEs = document.getElementById('btn-es');
+
+  const setLanguage = (lang) => {
+    // Actualizar estado del botón activo
+    if (lang === 'es') {
+      btnEs.classList.add('active');
+      btnEn.classList.remove('active');
+    } else {
+      btnEn.classList.add('active');
+      btnEs.classList.remove('active');
+    }
+
+    // Actualizar elementos
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key]) {
+        
+        el.innerHTML = translations[lang][key];
+        
+        // Manejar actualización de datos originales del efecto máquina de escribir
+        if (el.dataset.originalText) {
+          el.dataset.originalText = translations[lang][key];
+          // Si aún no ha escrito, no mostrar el texto
+          if(!el.dataset.typingStarted) {
+             el.textContent = "";
+          }
+        }
+        
+        // Manejar atributo personalizado del efecto glitch
+        if (el.classList.contains('glitch-text')) {
+           el.setAttribute('data-text', translations[lang][key]);
+        }
+      }
+    });
+
+    localStorage.setItem('portfolio_lang', lang);
+  };
+
+  // Event Listeners
+  if (btnEn && btnEs) {
+    btnEn.addEventListener('click', () => setLanguage('en'));
+    btnEs.addEventListener('click', () => setLanguage('es'));
+  }
+
+  // Load saved language or default to English
+  const savedLang = localStorage.getItem('portfolio_lang') || 'en';
+  setLanguage(savedLang);
 
 });

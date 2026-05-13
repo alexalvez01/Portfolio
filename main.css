@@ -48,6 +48,55 @@ html::-webkit-scrollbar {
     border-radius: 8px;
 }
 
+/* --- Language Switcher --- */
+.lang-switcher {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+.lang-switcher.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: #71717a;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px;
+    transition: color 0.3s ease;
+    font-family: "Fira Code", monospace;
+}
+
+.lang-btn:hover {
+    color: #e4e4e7;
+}
+
+.lang-btn.active {
+    color: #e11d48;
+}
+
+.lang-separator {
+    color: #3f3f46;
+    font-size: 0.85rem;
+}
+
 .nav-icon:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.06);
@@ -1179,6 +1228,13 @@ body.no-scroll {
     /* --- Content area responsive --- */
     .content-area {
         gap: 80px;
+    }
+
+    /* --- Language Switcher --- */
+    .lang-switcher {
+        top: 15px;
+        right: 15px;
+        padding: 6px 10px;
     }
 
     /* --- About section responsive --- */

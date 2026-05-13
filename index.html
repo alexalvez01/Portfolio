@@ -23,6 +23,13 @@
   </head>
   <body>
 
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+      <button id="btn-es" class="lang-btn">ES</button>
+      <span class="lang-separator">|</span>
+      <button id="btn-en" class="lang-btn active">ENG</button>
+    </div>
+
     <nav class="icon-nav" id="icon-nav">
       <a href="#hero" class="nav-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
       <a href="#about-section" class="nav-icon" title="About"><i class="fa-solid fa-user"></i></a>
@@ -46,7 +53,7 @@
         <div class="presentation">
           <h1>Hi, I'm Alex Alvez</h1>
           <div class="glitch-wrapper">
-            <h3 class="glitch-text" data-text="Full Stack Developer">Full Stack Developer</h3>
+            <h3 class="glitch-text" data-text="Full Stack Developer" data-i18n="hero_role">Full Stack Developer</h3>
           </div>
         </div>
 
@@ -79,7 +86,7 @@
             </div>
             <div class="profile-info">
               <h2>Alex Alvez</h2>
-              <p class="profile-role">Web Developer</p>
+              <p class="profile-role" data-i18n="profile_role">Web Developer</p>
               <p class="profile-location">
                 <i class="fa-solid fa-location-dot"></i> Argentina
               </p>
@@ -94,7 +101,7 @@
                   <i class="fa-brands fa-instagram"></i>
                 </a>
               </div>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=alexfalvez001@gmail.com" class="contact-btn" target="_blank" rel="noopener noreferrer">Contact Me</a>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=alexfalvez001@gmail.com" class="contact-btn" target="_blank" rel="noopener noreferrer" data-i18n="contact_btn">Contact Me</a>
             </div>
           </div>
         </aside>
@@ -102,12 +109,12 @@
         <!-- Contenido Derecho Desplazable -->
         <div class="content-area">
           <section class="box about-section" id="about-section">
-            <h2>ABOUT ME</h2>
+            <h2 data-i18n="about_title">ABOUT ME</h2>
             <div class="about-content">
-              <p>
+              <p data-i18n="about_p1">
                 Hello! I'm Alex Alvez, a graduated <strong>Systems Analyst</strong> and passionate Web Developer from Argentina. I specialize in building responsive and interactive web applications using modern technologies. My journey in tech is driven by a strong desire to create seamless, user-centric experiences.
               </p>
-              <p>
+              <p data-i18n="about_p2">
                 Currently, I'm in the fourth year of a <strong>Bachelor's Degree in Systems</strong>, which provides me with a solid foundation in computer science principles and software engineering practices. I thrive in collaborative environments and I am always looking to learn new tools and frameworks to stay updated with the latest trends in web development.
               </p>
               <div class="git-timeline">
@@ -117,7 +124,7 @@
                   <div class="git-content">
                     <div class="git-message">
                       <span class="git-branch-name">[ main ]</span> o-- <span class="git-hash">commit 2026</span> - 
-                      <span class="git-title">Graduated: Systems Analyst</span>
+                      <span class="git-title" data-i18n="edu_analyst_title">Graduated: Systems Analyst</span>
                     </div>
                     <div class="git-institution">
                       <span class="git-tree">└─</span> UADER - “Facultad de Ciencias y Tecnologías”
@@ -130,7 +137,7 @@
                   <div class="git-content">
                     <div class="git-message">
                       <span class="git-branch-name">[ main ]</span> o-- <span class="git-hash">commit Present</span> - 
-                      <span class="git-title">In Progress: Bachelor's Degree in Systems</span>
+                      <span class="git-title" data-i18n="edu_bachelor_title">In Progress: Bachelor's Degree in Systems</span>
                     </div>
                     <div class="git-institution">
                       <span class="git-tree">└─</span> UADER - “Facultad de Ciencias y Tecnologías”
@@ -140,26 +147,26 @@
               </div>
               
               <div class="about-skills">
-                <h3>SOFT SKILLS & INTERESTS</h3>
+                <h3 data-i18n="skills_title">SOFT SKILLS & INTERESTS</h3>
                 <div class="skills-container">
-                  <span class="skill-pill">TEAMWORK</span>
-                  <span class="skill-pill">COMMUNICATION</span>
-                  <span class="skill-pill">AGILE METHODOLOGIES</span>
-                  <span class="skill-pill">PROACTIVITY</span>
-                  <span class="skill-pill">ADAPTABILITY</span>
+                  <span class="skill-pill" data-i18n="skill_teamwork">TEAMWORK</span>
+                  <span class="skill-pill" data-i18n="skill_comm">COMMUNICATION</span>
+                  <span class="skill-pill" data-i18n="skill_agile">AGILE METHODOLOGIES</span>
+                  <span class="skill-pill" data-i18n="skill_proactive">PROACTIVITY</span>
+                  <span class="skill-pill" data-i18n="skill_adapt">ADAPTABILITY</span>
                 </div>
               </div>
 
               <div class="download-cv-container">
                 <a href="./docs/Alex_Alvez_CV.pdf" download="Alex_Alvez_CV.pdf" class="download-cv-btn" target="_blank" title="Download Resume">
-                  <i class="fa-solid fa-download"></i> DOWNLOAD CV
+                  <i class="fa-solid fa-download"></i> <span data-i18n="download_cv">DOWNLOAD CV</span>
                 </a>
               </div>
             </div>
           </section>
 
           <section class="box tech-stack" id="tech-section">
-            <h2>TECH STACK</h2>
+            <h2 data-i18n="tech_title">TECH STACK</h2>
             <div class="tech-accordion">
               <div class="tech-category">
                 <div class="tech-category-header">FRONT <i class="fa-solid fa-chevron-down"></i></div>
@@ -191,7 +198,7 @@
               </div>
               
               <div class="tech-category">
-                <div class="tech-category-header">IA TOOLS <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-header"><span data-i18n="tech_ai_tools">AI TOOLS</span> <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="tech-category-content">
                   <i class="si si-openai tech-icon" title="Codex"></i>
                   <i class="si si-anthropic tech-icon" title="Claude"></i>
@@ -200,7 +207,7 @@
               </div>
 
               <div class="tech-category">
-                <div class="tech-category-header">TOOLS <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-header"><span data-i18n="tech_tools">TOOLS</span> <i class="fa-solid fa-chevron-down"></i></div>
                 <div class="tech-category-content">
                   <i class="fa-brands fa-github tech-icon" title="GitHub"></i>
                   <i class="fa-brands fa-docker tech-icon" title="Docker"></i>
@@ -211,36 +218,36 @@
           </section>
 
           <section class="box project-section" id="projects-section">
-            <h2>MY PROJECTS</h2>
+            <h2 data-i18n="projects_title">MY PROJECTS</h2>
             <div class="container-projects">
               <article class="project project-districom">
                 <img src="./images/Districom.webp" class="project-img" alt="Districom Landing Page screenshot" title="Districom" />
                 <div class="project-overlay">
                   <h3>Districom Landing Page</h3>
-                  <p class="project-desc">Premium landing page for a tech retailer featuring an interactive 3D hero, real-time business status, and glassmorphism aesthetic.</p>
+                  <p class="project-desc" data-i18n="proj1_desc">Premium landing page for a tech retailer featuring an interactive 3D hero, real-time business status, and glassmorphism aesthetic.</p>
                   <br>
                   <p class="project-tech">React · Vite · CSS · Framer Motion</p>
-                  <a href="https://districom.vercel.app/" target="_blank" class="visit-site-btn">Visitar Sitio <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://districom.vercel.app/" target="_blank" class="visit-site-btn"><span data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                 </div>
               </article>
               <article class="project project2">
                 <img src="./images/TaskApp.webp" class="project-img" alt="Task Management App screenshot" title="Task Management App" />
                 <div class="project-overlay">
                   <h3>Task Management App</h3>
-                  <p class="project-desc">Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.</p>
+                  <p class="project-desc" data-i18n="proj2_desc">Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.</p>
                   <br>
                   <p class="project-tech">React · Express · CSS · PostgreSQL · Docker</p>
-                  <a href="https://frontend-production-29da.up.railway.app/" target="_blank" class="visit-site-btn">Visitar Sitio <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://frontend-production-29da.up.railway.app/" target="_blank" class="visit-site-btn"><span data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                 </div>
               </article>
               <article class="project project1 ecommerce slide-from-left">
                 <img src="./images/E-commerce.webp" class="project-img" alt="Amargo y Dulce screenshot" title="Amargo y Dulce" />
                 <div class="project-overlay">
                   <h3>Amargo y Dulce</h3>
-                  <p class="project-desc">Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.</p>
+                  <p class="project-desc" data-i18n="proj3_desc">Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.</p>
                   <br>
                   <p class="project-tech">React · Express · Tailwind CSS · PostgreSQL · MercadoPago · Google</p>
-                  <a href="https://amargo-y-dulce-ktu3.vercel.app/" target="_blank" class="visit-site-btn">Visitar Sitio <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://amargo-y-dulce-ktu3.vercel.app/" target="_blank" class="visit-site-btn"><span data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                 </div>
               </article>
             </div>
