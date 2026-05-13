@@ -653,52 +653,96 @@ body.no-scroll {
     font-weight: 500;
 }
 
-/* Education Timeline */
-.education-timeline {
+/* --- Git Timeline --- */
+.git-timeline {
     margin-top: 40px;
-    padding-left: 20px;
-    border-left: 2px solid #27272a;
+    font-family: "Fira Code", monospace; 
     position: relative;
+    padding-left: 10px;
+    margin-bottom: 30px;
 }
 
-.timeline-item {
+.git-commit {
     position: relative;
-    padding-bottom: 30px;
-    padding-left: 20px;
+    padding-bottom: 25px;
+    padding-left: 30px;
+    display: flex;
+    align-items: flex-start;
 }
 
-.timeline-item:last-child {
+.git-commit:last-child {
     padding-bottom: 0;
 }
 
-.timeline-dot {
+/* The vertical branch line */
+.git-branch {
     position: absolute;
-    left: -27px; /* Alinear con el borde */
-    top: 5px;
-    width: 12px;
-    height: 12px;
+    left: 8px; /* Centered with the dot */
+    top: 25px;
+    bottom: -10px;
+    width: 2px;
+    background-color: #3f3f46; 
+}
+
+.git-commit:last-child .git-branch {
+    display: none; 
+}
+
+/* The commit dot */
+.git-dot {
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
+    background-color: #0e0d0d;
+    border: 2px solid #e11d48; 
+    z-index: 1;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.git-commit:hover .git-dot {
     background-color: #e11d48;
-    box-shadow: 0 0 10px rgba(225, 29, 72, 0.5);
+    box-shadow: 0 0 10px rgba(225, 29, 72, 0.6);
 }
 
-.timeline-date {
-    font-size: 0.9rem;
-    color: #e11d48;
-    font-weight: 500;
-    margin-bottom: 5px;
+.git-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.timeline-details h4 {
-    margin: 0 0 5px 0;
+.git-message {
     color: #e4e4e7;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-break: break-word; /* Ensure it doesn't overflow */
+}
+
+.git-branch-name {
+    color: #a1a1aa;
+    margin-right: 5px;
+}
+
+.git-hash {
+    color: #22d3ee; 
+}
+
+.git-title {
+    color: #fb7185; 
     font-weight: 500;
 }
 
-.timeline-institution {
+.git-institution {
     color: #71717a;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding-left: 15px; 
+}
+
+.git-tree {
+    color: #3f3f46;
+    margin-right: 5px;
 }
 
 /* --- About Skills --- */
