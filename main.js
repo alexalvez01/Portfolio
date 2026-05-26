@@ -488,4 +488,47 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem('portfolio_lang') || 'en';
   setLanguage(savedLang);
 
+  // --- Stacking Cards Effect ---
+  const projects = document.querySelectorAll('.project');
+  if (projects.length > 0) {
+    const handleStacking = () => {
+      projects.forEach((project, index) => {
+        let scale = 1;
+        let brightness = 1;
+        
+        if (index < projects.length - 1) {
+          const nextProject = projects[index + 1];
+          const nextRect = nextProject.getBoundingClientRect();
+          const nextStickyTop = 150 + ((index + 1) * 40);
+          
+          const distance = nextRect.top - nextStickyTop;
+          const maxDistance = 300; 
+          
+          if (distance < maxDistance && distance >= 0) {
+            const progress = 1 - (distance / maxDistance);
+            scale = 1 - (progress * 0.05); 
+            brightness = 1 - (progress * 0.6); 
+          } else if (distance < 0) {
+            scale = 0.95;
+            brightness = 0.4;
+          }
+        }
+        
+        if (scale === 1) {
+          project.style.scale = '';
+          project.style.filter = '';
+          project.style.pointerEvents = 'auto';
+        } else {
+          project.style.scale = scale;
+          project.style.filter = `brightness(${brightness})`;
+          project.style.pointerEvents = scale < 0.98 ? 'none' : 'auto';
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleStacking, { passive: true });
+    window.addEventListener('resize', handleStacking, { passive: true });
+    setTimeout(handleStacking, 100);
+  }
+
 });

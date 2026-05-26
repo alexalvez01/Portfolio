@@ -1,263 +1,280 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Portfolio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="images/portfolio.webp" type="image/x-icon" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@12/font/simple-icons.min.css">
-  
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="main.js"></script>
-    <script
-      src="https://kit.fontawesome.com/7ec1e858d0.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
 
-    <!-- Language Switcher -->
-    <div class="lang-switcher">
-      <button id="btn-es" class="lang-btn">ES</button>
-      <span class="lang-separator">|</span>
-      <button id="btn-en" class="lang-btn active">ENG</button>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="images/portfolio.webp" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@12/font/simple-icons.min.css">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="main.js"></script>
+  <script src="https://kit.fontawesome.com/7ec1e858d0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Language Switcher -->
+  <div class="lang-switcher">
+    <button id="btn-es" class="lang-btn">ES</button>
+    <span class="lang-separator">|</span>
+    <button id="btn-en" class="lang-btn active">ENG</button>
+  </div>
+
+  <nav class="icon-nav" id="icon-nav">
+    <a href="#hero" class="nav-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="#about-section" class="nav-icon" title="About"><i class="fa-solid fa-user"></i></a>
+    <a href="#tech-section" class="nav-icon" title="Skills"><i class="fa-solid fa-code"></i></a>
+    <a href="#projects-section" class="nav-icon" title="Projects"><i class="fa-solid fa-folder-open"></i></a>
+  </nav>
+
+  <header class="box hero" id="hero">
+    <!-- Fondo Dinámico: Cuadrícula Infinita -->
+    <div class="infinite-grid-container" id="grid-container">
+      <!-- Capas de la Cuadrícula -->
+      <div class="grid-base"></div>
+      <div class="grid-mask" id="grid-mask"></div>
+
+      <!-- Esferas Brillantes del Hero -->
+      <div class="glow-orb orange-orb"></div>
+      <div class="glow-orb primary-orb"></div>
+      <div class="glow-orb blue-orb"></div>
     </div>
-
-    <nav class="icon-nav" id="icon-nav">
-      <a href="#hero" class="nav-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
-      <a href="#about-section" class="nav-icon" title="About"><i class="fa-solid fa-user"></i></a>
-      <a href="#tech-section" class="nav-icon" title="Skills"><i class="fa-solid fa-code"></i></a>
-      <a href="#projects-section" class="nav-icon" title="Projects"><i class="fa-solid fa-folder-open"></i></a>
-    </nav>
-
-    <header class="box hero" id="hero">
-      <!-- Fondo Dinámico: Cuadrícula Infinita -->
-      <div class="infinite-grid-container" id="grid-container">
-        <!-- Capas de la Cuadrícula -->
-        <div class="grid-base"></div>
-        <div class="grid-mask" id="grid-mask"></div>
-        
-        <!-- Esferas Brillantes del Hero -->
-        <div class="glow-orb orange-orb"></div>
-        <div class="glow-orb primary-orb"></div>
-        <div class="glow-orb blue-orb"></div>
-      </div>
-      <div class="hero-content booting">
-        <div class="presentation">
-          <h1>Hi, I'm Alex Alvez</h1>
-          <div class="glitch-wrapper">
-            <h3 class="glitch-text" data-text="Full Stack Developer" data-i18n="hero_role">Full Stack Developer</h3>
-          </div>
+    <div class="hero-content booting">
+      <div class="presentation">
+        <h1>Hi, I'm Alex Alvez</h1>
+        <div class="glitch-wrapper">
+          <h3 class="glitch-text" data-text="Full Stack Developer" data-i18n="hero_role">Full Stack Developer</h3>
         </div>
+      </div>
 
-        <div class="terminal">
-          <div class="terminal-header">
-        
-            <span class="terminal-title">alex-cli — interactive</span>
-          </div>
-          <div class="terminal-body" id="terminal-body">
-            <div id="terminal-output"></div>
-            <div class="terminal-input-line" id="terminal-input-line" style="display:none;">
-              <span class="prompt">visitor@alex&gt;</span>
-              <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" />
-            </div>
+      <div class="terminal">
+        <div class="terminal-header">
+
+          <span class="terminal-title">alex-cli — interactive</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <div id="terminal-output"></div>
+          <div class="terminal-input-line" id="terminal-input-line" style="display:none;">
+            <span class="prompt">visitor@alex&gt;</span>
+            <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" />
           </div>
         </div>
       </div>
-      <a href="#content-start" class="scroll-down-icon" aria-label="Scroll down">
-        <i class="fa-solid fa-chevron-down"></i>
-      </a>
-    </header>
+    </div>
+    <a href="#content-start" class="scroll-down-icon" aria-label="Scroll down">
+      <i class="fa-solid fa-chevron-down"></i>
+    </a>
+  </header>
 
-    <div id="content-start" class="layout-wrapper">
-      <main class="main-layout">
-        <!-- Barra Lateral Izquierda Fija -->
-        <aside class="sidebar">
-          <div class="profile-card">
-            <div class="profile-img-container">
-              <img src="./images/foto.webp" alt="Alex Alvez" class="profile-photo" />
+  <div id="content-start" class="layout-wrapper">
+    <main class="main-layout">
+      <!-- Barra Lateral Izquierda Fija -->
+      <aside class="sidebar">
+        <div class="profile-card">
+          <div class="profile-img-container">
+            <img src="./images/foto.webp" alt="Alex Alvez" class="profile-photo" />
+          </div>
+          <div class="profile-info">
+            <h2>Alex Alvez</h2>
+            <p class="profile-role" data-i18n="profile_role">Web Developer</p>
+            <p class="profile-location">
+              <i class="fa-solid fa-location-dot"></i> Argentina
+            </p>
+            <div class="profile-social">
+              <a href="https://github.com/alexalvez01" target="_blank" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/alex-alvez-31b980365/" target="_blank" title="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+              </a>
+              <a href="https://www.instagram.com/colo_alvez/" target="_blank" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
             </div>
-            <div class="profile-info">
-              <h2>Alex Alvez</h2>
-              <p class="profile-role" data-i18n="profile_role">Web Developer</p>
-              <p class="profile-location">
-                <i class="fa-solid fa-location-dot"></i> Argentina
-              </p>
-              <div class="profile-social">
-                <a href="https://github.com/alexalvez01" target="_blank" title="GitHub">
-                  <i class="fa-brands fa-github"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/alex-alvez-31b980365/" target="_blank" title="LinkedIn">
-                  <i class="fa-brands fa-linkedin"></i>
-                </a>
-                <a href="https://www.instagram.com/colo_alvez/" target="_blank" title="Instagram">
-                  <i class="fa-brands fa-instagram"></i>
-                </a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=alexfalvez001@gmail.com" class="contact-btn"
+              target="_blank" rel="noopener noreferrer" data-i18n="contact_btn">Contact Me</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Contenido Derecho Desplazable -->
+      <div class="content-area">
+        <section class="box about-section" id="about-section">
+          <h2 data-i18n="about_title">ABOUT ME</h2>
+          <div class="about-content">
+            <p data-i18n="about_p1">
+              Hello! I'm Alex Alvez, a graduated <strong>Systems Analyst</strong> and passionate Web Developer from
+              Argentina. I specialize in building responsive and interactive web applications using modern technologies.
+              My journey in tech is driven by a strong desire to create seamless, user-centric experiences.
+            </p>
+            <p data-i18n="about_p2">
+              Currently, I'm in the fourth year of a <strong>Bachelor's Degree in Systems</strong>, which provides me
+              with a solid foundation in computer science principles and software engineering practices. I thrive in
+              collaborative environments and I am always looking to learn new tools and frameworks to stay updated with
+              the latest trends in web development.
+            </p>
+            <div class="git-timeline">
+              <div class="git-commit">
+                <div class="git-branch"></div>
+                <div class="git-dot"></div>
+                <div class="git-content">
+                  <div class="git-message">
+                    <span class="git-branch-name">[ main ]</span> o-- <span class="git-hash">commit 2026</span> -
+                    <span class="git-title" data-i18n="edu_analyst_title">Graduated: Systems Analyst</span>
+                  </div>
+                  <div class="git-institution">
+                    <span class="git-tree">└─</span> UADER - “Facultad de Ciencias y Tecnologías”
+                  </div>
+                </div>
               </div>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=alexfalvez001@gmail.com" class="contact-btn" target="_blank" rel="noopener noreferrer" data-i18n="contact_btn">Contact Me</a>
+              <div class="git-commit">
+                <div class="git-branch"></div>
+                <div class="git-dot"></div>
+                <div class="git-content">
+                  <div class="git-message">
+                    <span class="git-branch-name">[ main ]</span> o-- <span class="git-hash">commit Present</span> -
+                    <span class="git-title" data-i18n="edu_bachelor_title">In Progress: Bachelor's Degree in
+                      Systems</span>
+                  </div>
+                  <div class="git-institution">
+                    <span class="git-tree">└─</span> UADER - “Facultad de Ciencias y Tecnologías”
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-skills">
+              <h3 data-i18n="skills_title">SOFT SKILLS & INTERESTS</h3>
+              <div class="skills-container">
+                <span class="skill-pill" data-i18n="skill_teamwork">TEAMWORK</span>
+                <span class="skill-pill" data-i18n="skill_comm">COMMUNICATION</span>
+                <span class="skill-pill" data-i18n="skill_agile">AGILE METHODOLOGIES</span>
+                <span class="skill-pill" data-i18n="skill_proactive">PROACTIVITY</span>
+                <span class="skill-pill" data-i18n="skill_adapt">ADAPTABILITY</span>
+              </div>
+            </div>
+
+            <div class="download-cv-container">
+              <a href="./docs/Alex_Alvez_CV.pdf" download="Alex_Alvez_CV.pdf" class="download-cv-btn" target="_blank"
+                title="Download Resume">
+                <i class="fa-solid fa-download"></i> <span data-i18n="download_cv">DOWNLOAD CV</span>
+              </a>
             </div>
           </div>
-        </aside>
-  
-        <!-- Contenido Derecho Desplazable -->
-        <div class="content-area">
-          <section class="box about-section" id="about-section">
-            <h2 data-i18n="about_title">ABOUT ME</h2>
-            <div class="about-content">
-              <p data-i18n="about_p1">
-                Hello! I'm Alex Alvez, a graduated <strong>Systems Analyst</strong> and passionate Web Developer from Argentina. I specialize in building responsive and interactive web applications using modern technologies. My journey in tech is driven by a strong desire to create seamless, user-centric experiences.
-              </p>
-              <p data-i18n="about_p2">
-                Currently, I'm in the fourth year of a <strong>Bachelor's Degree in Systems</strong>, which provides me with a solid foundation in computer science principles and software engineering practices. I thrive in collaborative environments and I am always looking to learn new tools and frameworks to stay updated with the latest trends in web development.
-              </p>
-              <div class="git-timeline">
-                <div class="git-commit">
-                  <div class="git-branch"></div>
-                  <div class="git-dot"></div>
-                  <div class="git-content">
-                    <div class="git-message">
-                      <span class="git-branch-name">[ main ]</span> o-- <span class="git-hash">commit 2026</span> - 
-                      <span class="git-title" data-i18n="edu_analyst_title">Graduated: Systems Analyst</span>
-                    </div>
-                    <div class="git-institution">
-                      <span class="git-tree">└─</span> UADER - “Facultad de Ciencias y Tecnologías”
-                    </div>
-                  </div>
-                </div>
-                <div class="git-commit">
-                  <div class="git-branch"></div>
-                  <div class="git-dot"></div>
-                  <div class="git-content">
-                    <div class="git-message">
-                      <span class="git-branch-name">[ main ]</span> o-- <span class="git-hash">commit Present</span> - 
-                      <span class="git-title" data-i18n="edu_bachelor_title">In Progress: Bachelor's Degree in Systems</span>
-                    </div>
-                    <div class="git-institution">
-                      <span class="git-tree">└─</span> UADER - “Facultad de Ciencias y Tecnologías”
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="about-skills">
-                <h3 data-i18n="skills_title">SOFT SKILLS & INTERESTS</h3>
-                <div class="skills-container">
-                  <span class="skill-pill" data-i18n="skill_teamwork">TEAMWORK</span>
-                  <span class="skill-pill" data-i18n="skill_comm">COMMUNICATION</span>
-                  <span class="skill-pill" data-i18n="skill_agile">AGILE METHODOLOGIES</span>
-                  <span class="skill-pill" data-i18n="skill_proactive">PROACTIVITY</span>
-                  <span class="skill-pill" data-i18n="skill_adapt">ADAPTABILITY</span>
-                </div>
-              </div>
+        </section>
 
-              <div class="download-cv-container">
-                <a href="./docs/Alex_Alvez_CV.pdf" download="Alex_Alvez_CV.pdf" class="download-cv-btn" target="_blank" title="Download Resume">
-                  <i class="fa-solid fa-download"></i> <span data-i18n="download_cv">DOWNLOAD CV</span>
-                </a>
+        <section class="box tech-stack" id="tech-section">
+          <h2 data-i18n="tech_title">TECH STACK</h2>
+          <div class="tech-accordion">
+            <div class="tech-category">
+              <div class="tech-category-header">FRONT <i class="fa-solid fa-chevron-down"></i></div>
+              <div class="tech-category-content">
+                <i class="fa-brands fa-html5 tech-icon" title="HTML"></i>
+                <i class="fa-brands fa-css3-alt tech-icon" title="CSS"></i>
+                <i class="fa-brands fa-js tech-icon" title="JavaScript"></i>
+                <i class="si si-typescript tech-icon" title="TypeScript"></i>
               </div>
             </div>
-          </section>
 
-          <section class="box tech-stack" id="tech-section">
-            <h2 data-i18n="tech_title">TECH STACK</h2>
-            <div class="tech-accordion">
-              <div class="tech-category">
-                <div class="tech-category-header">FRONT <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="tech-category-content">
-                  <i class="fa-brands fa-html5 tech-icon" title="HTML"></i>
-                  <i class="fa-brands fa-css3-alt tech-icon" title="CSS"></i>
-                  <i class="fa-brands fa-js tech-icon" title="JavaScript"></i>
-                  <i class="si si-typescript tech-icon" title="TypeScript"></i>
-                </div>
-              </div>
-
-              <div class="tech-category">
-                <div class="tech-category-header">BACK <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="tech-category-content">
-                  <i class="fa-brands fa-python tech-icon" title="Python"></i>
-                  <i class="si si-nodedotjs tech-icon" title="Node.js"></i>
-                  <i class="si si-postgresql tech-icon" title="PostgreSQL"></i>
-                </div>
-              </div>
-
-              <div class="tech-category">
-                <div class="tech-category-header">FRAMEWORKS <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="tech-category-content">
-                  <i class="fa-brands fa-react tech-icon" title="React"></i>
-                  <i class="si si-express tech-icon" title="Express.js"></i>
-                  <i class="si si-nestjs tech-icon" title="NestJS"></i>
-                  <i class="si si-tailwindcss tech-icon" title="Tailwind CSS"></i>
-                </div>
-              </div>
-              
-              <div class="tech-category">
-                <div class="tech-category-header"><span data-i18n="tech_ai_tools">AI TOOLS</span> <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="tech-category-content">
-                  <i class="si si-openai tech-icon" title="Codex"></i>
-                  <i class="si si-anthropic tech-icon" title="Claude"></i>
-                  <i class="si si-googlegemini tech-icon" title="Gemini"></i>
-                </div>
-              </div>
-
-              <div class="tech-category">
-                <div class="tech-category-header"><span data-i18n="tech_tools">TOOLS</span> <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="tech-category-content">
-                  <i class="fa-brands fa-github tech-icon" title="GitHub"></i>
-                  <i class="fa-brands fa-docker tech-icon" title="Docker"></i>
-                  <i class="si si-postman tech-icon" title="Postman"></i>
-                </div>
+            <div class="tech-category">
+              <div class="tech-category-header">BACK <i class="fa-solid fa-chevron-down"></i></div>
+              <div class="tech-category-content">
+                <i class="fa-brands fa-python tech-icon" title="Python"></i>
+                <i class="si si-nodedotjs tech-icon" title="Node.js"></i>
+                <i class="si si-postgresql tech-icon" title="PostgreSQL"></i>
               </div>
             </div>
-          </section>
 
-          <section class="box project-section" id="projects-section">
-            <h2 data-i18n="projects_title">MY PROJECTS</h2>
-            <div class="container-projects">
-              <article class="project project-districom">
-                <img src="./images/Districom.webp" class="project-img" alt="Districom Landing Page screenshot" title="Districom" />
-                <div class="project-overlay">
-                  <h3>Districom Landing Page</h3>
-                  <p class="project-desc" data-i18n="proj1_desc">Premium landing page for a tech retailer featuring an interactive 3D hero, real-time business status, and glassmorphism aesthetic.</p>
-                  <br>
-                  <p class="project-tech">React · Vite · CSS · Framer Motion</p>
-                  <a href="https://districom.vercel.app/" target="_blank" class="visit-site-btn"><span data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                </div>
-              </article>
-              <article class="project project2">
-                <img src="./images/TaskApp.webp" class="project-img" alt="Task Management App screenshot" title="Task Management App" />
-                <div class="project-overlay">
-                  <h3>Task Management App</h3>
-                  <p class="project-desc" data-i18n="proj2_desc">Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.</p>
-                  <br>
-                  <p class="project-tech">React · Express · CSS · PostgreSQL · Docker</p>
-                  <a href="https://frontend-production-29da.up.railway.app/" target="_blank" class="visit-site-btn"><span data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                </div>
-              </article>
-              <article class="project project1 ecommerce slide-from-left">
-                <img src="./images/E-commerce.webp" class="project-img" alt="Amargo y Dulce screenshot" title="Amargo y Dulce" />
-                <div class="project-overlay">
-                  <h3>Amargo y Dulce</h3>
-                  <p class="project-desc" data-i18n="proj3_desc">Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.</p>
-                  <br>
-                  <p class="project-tech">React · Express · Tailwind CSS · PostgreSQL · MercadoPago · Google</p>
-                  <a href="https://amargo-y-dulce-ktu3.vercel.app/" target="_blank" class="visit-site-btn"><span data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                </div>
-              </article>
+            <div class="tech-category">
+              <div class="tech-category-header">FRAMEWORKS <i class="fa-solid fa-chevron-down"></i></div>
+              <div class="tech-category-content">
+                <i class="fa-brands fa-react tech-icon" title="React"></i>
+                <i class="si si-express tech-icon" title="Express.js"></i>
+                <i class="si si-nestjs tech-icon" title="NestJS"></i>
+                <i class="si si-tailwindcss tech-icon" title="Tailwind CSS"></i>
+              </div>
             </div>
-          </section>
-        </div>
 
-        </div>
-      </main>
+            <div class="tech-category">
+              <div class="tech-category-header"><span data-i18n="tech_ai_tools">AI TOOLS</span> <i
+                  class="fa-solid fa-chevron-down"></i></div>
+              <div class="tech-category-content">
+                <i class="si si-openai tech-icon" title="Codex"></i>
+                <i class="si si-anthropic tech-icon" title="Claude"></i>
+                <i class="si si-googlegemini tech-icon" title="Gemini"></i>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <div class="tech-category-header"><span data-i18n="tech_tools">TOOLS</span> <i
+                  class="fa-solid fa-chevron-down"></i></div>
+              <div class="tech-category-content">
+                <i class="fa-brands fa-github tech-icon" title="GitHub"></i>
+                <i class="fa-brands fa-docker tech-icon" title="Docker"></i>
+                <i class="si si-postman tech-icon" title="Postman"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="box project-section" id="projects-section">
+          <h2 data-i18n="projects_title">MY PROJECTS</h2>
+          <div class="container-projects">
+            <article class="project project-districom">
+              <img src="./images/Districom.webp" class="project-img" alt="Districom Landing Page screenshot"
+                title="Districom" />
+              <div class="project-overlay">
+                <h3>Districom Landing Page</h3>
+                <p class="project-desc" data-i18n="proj1_desc">Premium landing page for a tech retailer featuring an
+                  interactive 3D hero, real-time business status, and glassmorphism aesthetic.</p>
+                <br>
+                <p class="project-tech">React · Vite · CSS · Framer Motion</p>
+                <a href="https://districom.vercel.app/" target="_blank" class="visit-site-btn"><span
+                    data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </article>
+            <article class="project project2">
+              <img src="./images/TaskApp.webp" class="project-img" alt="Task Management App screenshot"
+                title="Task Management App" />
+              <div class="project-overlay">
+                <h3>Task Management App</h3>
+                <p class="project-desc" data-i18n="proj2_desc">Full Stack task manager with authentication, full CRUD,
+                  REST API and dynamic UI in dark mode.</p>
+                <br>
+                <p class="project-tech">React · Express · CSS · PostgreSQL · Docker</p>
+                <a href="https://frontend-production-29da.up.railway.app/" target="_blank" class="visit-site-btn"><span
+                    data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </article>
+            <article class="project project1 ecommerce slide-from-left">
+              <img src="./images/E-commerce.webp" class="project-img" alt="Amargo y Dulce screenshot"
+                title="Amargo y Dulce" />
+              <div class="project-overlay">
+                <h3>Amargo y Dulce</h3>
+                <p class="project-desc" data-i18n="proj3_desc">Full-featured e-commerce with Mercado Pago and Google
+                  integration, shopping cart, shipment tracking and admin dashboard.</p>
+                <br>
+                <p class="project-tech">React · Express · Tailwind CSS · PostgreSQL · MercadoPago API · Google API</p>
+                <a href="https://amargo-y-dulce-ktu3.vercel.app/" target="_blank" class="visit-site-btn"><span
+                    data-i18n="visit_site">Visit Site</span> <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+  </div>
+  </main>
 
 
 
-    </div> 
+  </div>
+
 </html>
