@@ -805,11 +805,10 @@ body.no-scroll {
     padding-bottom: 0;
 }
 
-/* The vertical branch line */
+/* Linea vertical de la rama */
 .git-branch {
     position: absolute;
     left: 8px;
-    /* Centered with the dot */
     top: 25px;
     bottom: -10px;
     width: 2px;
@@ -850,7 +849,6 @@ body.no-scroll {
     font-size: 0.95rem;
     line-height: 1.4;
     word-break: break-word;
-    /* Ensure it doesn't overflow */
 }
 
 .git-branch-name {
@@ -916,7 +914,7 @@ body.no-scroll {
     box-shadow: 0 5px 15px rgba(225, 29, 72, 0.2);
 }
 
-/* --- Download CV Button --- */
+/* --- Descargar CV --- */
 .download-cv-container {
     margin-top: 60px;
     text-align: center;
@@ -966,7 +964,7 @@ body.no-scroll {
 
 
 
-/* --- Tech Accordion --- */
+/* --- Acordeón de Tecnologías --- */
 .tech-accordion {
     display: flex;
     flex-direction: column;

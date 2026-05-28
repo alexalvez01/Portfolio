@@ -410,7 +410,8 @@ document.addEventListener("DOMContentLoaded", () => {
       proj1_desc: "Premium landing page for a technology company featuring an interactive 3D hero, real-time business status, and a modern aesthetic.",
       proj2_desc: "Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.",
       proj3_desc: "Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.",
-      visit_site: "Visit Site"
+      visit_site: "Visit Site",
+      visit_repo: "Visit Repo"
     },
     es: {
       hero_role: "Desarrollador Full Stack",
@@ -435,7 +436,8 @@ document.addEventListener("DOMContentLoaded", () => {
       proj1_desc: "Landing page premium para una empresa de tecnología con un hero 3D interactivo, estado de la empresa en tiempo real y una estética moderna.",
       proj2_desc: "Administrador de tareas Full Stack con autenticación, CRUD completo, API REST y UI dinámica en modo oscuro.",
       proj3_desc: "E-commerce completo con integración de Mercado Pago y Google, carrito de compras, seguimiento de envíos y panel de administración.",
-      visit_site: "Visitar Sitio"
+      visit_site: "Visitar Sitio",
+      visit_repo: "Visitar Repositorio"
     }
   };
 
