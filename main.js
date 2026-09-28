@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Respetar la preferencia del sistema: si el usuario pidió menos movimiento,
+  // la terminal sigue funcional pero sin typewriter/scroll infinito agresivo.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Intersection Observer para la Tarjeta de Perfil y la Sección de Proyectos
   // Función genérica para animación de tipeo (se ejecuta una sola vez)
   const typeWriterOnce = (el, speed = 100) => {
@@ -21,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Preparar los headers para que no tengan texto al inicio (evita parpadeo)
-  document.querySelectorAll('.about-section h2, .tech-stack h2, .project-section h2').forEach(h2 => {
+  document.querySelectorAll('.about-section h2, .tech-stack h2, .experience-section h2, .project-section h2').forEach(h2 => {
     h2.dataset.originalText = h2.textContent.trim();
     h2.textContent = "";
   });
@@ -60,6 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectSection = document.querySelector(".project-section");
   if (projectSection) sectionObserver.observe(projectSection);
 
+  const experienceSection = document.querySelector(".experience-section");
+  if (experienceSection) sectionObserver.observe(experienceSection);
+
   // Intersection Observer para iconos del stack tecnológico (revelación escalonada vía JS)
   const iconObserver = new IntersectionObserver(
     entries => {
@@ -81,6 +88,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".language-container")
     .forEach(el => iconObserver.observe(el));
+
+  // --- Acordeón del Tech Stack (click/touch) ---
+  // El hover ya funciona en desktop vía CSS; esto agrega soporte táctil
+  // y el comportamiento de acordeón (exclusivo) para todos los dispositivos.
+  const techCategories = document.querySelectorAll(".tech-category");
+  techCategories.forEach((category) => {
+    const header = category.querySelector(".tech-category-header");
+    if (header) {
+      header.addEventListener("click", () => {
+        const wasOpen = category.classList.contains("open");
+        techCategories.forEach((c) => c.classList.remove("open"));
+        if (!wasOpen) category.classList.add("open");
+      });
+    }
+  });
 
   const hero = document.querySelector(".hero");
   const gridContainer = document.getElementById("grid-container");
@@ -113,7 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(animateGrid);
     };
 
-    animateGrid();
+    if (!prefersReducedMotion) {
+      animateGrid();
+    }
   }
 
   // --- Animación de Tipeo para el Hero (H1) ---
@@ -128,6 +152,14 @@ document.addEventListener("DOMContentLoaded", () => {
     heroH1.textContent = "";
 
     startHeroTyping = () => {
+      if (prefersReducedMotion) {
+        heroH1.textContent = textToType;
+        heroH1.classList.remove('typing-cursor');
+        const glitchWrapper = document.querySelector('.glitch-wrapper');
+        if (glitchWrapper) glitchWrapper.classList.add('show');
+        return;
+      }
+
       heroH1.classList.add('typing-cursor');
       let charIndex = 0;
       let isDeleting = false;
@@ -220,8 +252,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const terminalInput = document.getElementById('terminal-input');
   const terminalBody = document.getElementById('terminal-body');
 
-  // Bloquear scroll hasta que cargue la consola
+  // Bloquear scroll hasta que cargue la consola (con red de seguridad)
   document.body.classList.add('no-scroll');
+
+  // Desbloquea la página y muestra navegación + botón de idioma
+  const unlockPage = () => {
+    document.body.classList.remove('no-scroll');
+    const scrollArrow = document.querySelector('.scroll-down-icon');
+    if (scrollArrow) scrollArrow.classList.add('show');
+    const iconNav = document.getElementById('icon-nav');
+    if (iconNav) iconNav.classList.add('show');
+    const langSwitcher = document.querySelector('.lang-switcher');
+    if (langSwitcher) langSwitcher.classList.add('show');
+  };
+
+  // Red de seguridad: si el boot de la terminal falla o se traba, nunca
+  // dejar la página con el scroll bloqueado.
+  setTimeout(unlockPage, 8000);
 
   if (terminalOutput && terminalInput && terminalBody) {
 
@@ -232,6 +279,11 @@ document.addEventListener("DOMContentLoaded", () => {
       terminalOutput.appendChild(line);
       terminalBody.scrollTop = terminalBody.scrollHeight;
     };
+
+    // Escapa caracteres HTML para no inyectar código desde la entrada del usuario
+    const escapeHtml = (str) => str.replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
 
 
 
@@ -274,13 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startHeroTyping();
 
         // Desbloquear scroll y mostrar flecha + nav + lang switcher
-        document.body.classList.remove('no-scroll');
-        const scrollArrow = document.querySelector('.scroll-down-icon');
-        if (scrollArrow) scrollArrow.classList.add('show');
-        const iconNav = document.getElementById('icon-nav');
-        if (iconNav) iconNav.classList.add('show');
-        const langSwitcher = document.querySelector('.lang-switcher');
-        if (langSwitcher) langSwitcher.classList.add('show');
+        unlockPage();
       }
     };
 
@@ -345,8 +391,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === 'Enter') {
         const value = terminalInput.value.trim().toLowerCase();
         
-        // Repetir el comando escrito
-        addLine(`<span class="cmd">visitor@alex&gt;</span> ${value || ' '}`);
+        // Repetir el comando escrito (escapeado para evitar self-XSS)
+        addLine(`<span class="cmd">visitor@alex&gt;</span> ${escapeHtml(value) || ' '}`);
         terminalInput.value = '';
 
         if (value === '') return;
@@ -354,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (commands[value]) {
           setTimeout(() => commands[value](), 300);
         } else {
-          addLine(`<span class="pink">  Command not found: '${value}'. Type 'help' for available commands.</span>`);
+          addLine(`<span class="pink">  Command not found: '${escapeHtml(value)}'. Type 'help' for available commands.</span>`);
         }
       }
     });
@@ -362,7 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Scroll Spy para el Nav ---
   const navLinks = document.querySelectorAll('.nav-icon');
-  const sections = document.querySelectorAll('#hero, #about-section, #tech-section, #projects-section');
+  const sections = document.querySelectorAll('#hero, #about-section, #tech-section, #projects-section, #experience-section');
 
   if (navLinks.length && sections.length) {
     const setActive = (id) => {
@@ -407,6 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tech_ai_tools: "AI TOOLS",
       tech_tools: "TOOLS",
       projects_title: "MY PROJECTS",
+      experience_title: "WORK EXPERIENCE",
       proj1_desc: "Premium landing page for a technology company featuring an interactive 3D hero, real-time business status, and a modern aesthetic.",
       proj2_desc: "Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.",
       proj3_desc: "Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.",
@@ -433,6 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tech_ai_tools: "HERRAMIENTAS IA",
       tech_tools: "HERRAMIENTAS",
       projects_title: "MIS PROYECTOS",
+      experience_title: "EXPERIENCIA LABORAL",
       proj1_desc: "Landing page premium para una empresa de tecnología con un hero 3D interactivo, estado de la empresa en tiempo real y una estética moderna.",
       proj2_desc: "Administrador de tareas Full Stack con autenticación, CRUD completo, API REST y UI dinámica en modo oscuro.",
       proj3_desc: "E-commerce completo con integración de Mercado Pago y Google, carrito de compras, seguimiento de envíos y panel de administración.",
@@ -490,47 +538,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem('portfolio_lang') || 'en';
   setLanguage(savedLang);
 
-  // --- Stacking Cards Effect ---
-  const projects = document.querySelectorAll('.project');
-  if (projects.length > 0) {
-    const handleStacking = () => {
-      projects.forEach((project, index) => {
-        let scale = 1;
-        let brightness = 1;
-        
-        if (index < projects.length - 1) {
-          const nextProject = projects[index + 1];
-          const nextRect = nextProject.getBoundingClientRect();
-          const nextStickyTop = 150 + ((index + 1) * 40);
-          
-          const distance = nextRect.top - nextStickyTop;
-          const maxDistance = 300; 
-          
-          if (distance < maxDistance && distance >= 0) {
-            const progress = 1 - (distance / maxDistance);
-            scale = 1 - (progress * 0.05); 
-            brightness = 1 - (progress * 0.6); 
-          } else if (distance < 0) {
-            scale = 0.95;
-            brightness = 0.4;
-          }
+  // --- Hash del último commit en el footer (fallback silencioso) ---
+  const footerCommitHash = document.getElementById('footer-commit-hash');
+  if (footerCommitHash) {
+    fetch('https://api.github.com/repos/alexalvez01/Portfolio/commits?per_page=1')
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('github api'))))
+      .then((data) => {
+        if (Array.isArray(data) && data[0] && data[0].sha) {
+          footerCommitHash.textContent = data[0].sha.slice(0, 7);
         }
-        
-        if (scale === 1) {
-          project.style.scale = '';
-          project.style.filter = '';
-          project.style.pointerEvents = 'auto';
-        } else {
-          project.style.scale = scale;
-          project.style.filter = `brightness(${brightness})`;
-          project.style.pointerEvents = scale < 0.98 ? 'none' : 'auto';
-        }
+      })
+      .catch(() => {
+        /* Sin conexión o error: queda el hash placeholder */
       });
-    };
-
-    window.addEventListener('scroll', handleStacking, { passive: true });
-    window.addEventListener('resize', handleStacking, { passive: true });
-    setTimeout(handleStacking, 100);
   }
+
+  // --- Sección de proyectos: columna estática, reveal al scrollear ---
+  // Las cards se apilan una tras otra en .container-projects (flex column).
+  // Sin sticky y sin scroll-math: el IntersectionObserver agrega .show
+  // y el CSS se encarga del resto.
 
 });
