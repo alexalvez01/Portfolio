@@ -253,8 +253,40 @@
                 <div class="browser-bar">
                   <span class="browser-url">districom.vercel.app</span>
                 </div>
-                <img src="./images/Districom.webp" class="project-img" alt="Districom Landing Page screenshot"
-                  title="Districom" loading="lazy" decoding="async" />
+                <div class="districom-viewport">
+                  <div class="districom-track" id="districom-track">
+                    <div class="districom-slide">
+                      <img src="./images/Districom/hero.webp" class="project-img" alt="Districom hero section screenshot"
+                        title="Districom — Hero" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="districom-slide">
+                      <img src="./images/Districom/servicios.webp" class="project-img" alt="Districom services section screenshot"
+                        title="Districom — Servicios" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="districom-slide">
+                      <img src="./images/Districom/nosotros.webp" class="project-img" alt="Districom about us section screenshot"
+                        title="Districom — Nosotros" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="districom-slide">
+                      <img src="./images/Districom/contacto.webp" class="project-img" alt="Districom contact section screenshot"
+                        title="Districom — Contacto" loading="lazy" decoding="async" />
+                    </div>
+                  </div>
+                </div>
+                <div class="districom-nav">
+                  <button class="phone-btn districom-prev" type="button" data-districom-prev aria-label="Previous Districom screenshot">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                  </button>
+                  <div class="districom-dots">
+                    <button class="districom-dot active" type="button" data-districom-dot="0" aria-label="Show Districom screenshot 1" aria-current="true"></button>
+                    <button class="districom-dot" type="button" data-districom-dot="1" aria-label="Show Districom screenshot 2"></button>
+                    <button class="districom-dot" type="button" data-districom-dot="2" aria-label="Show Districom screenshot 3"></button>
+                    <button class="districom-dot" type="button" data-districom-dot="3" aria-label="Show Districom screenshot 4"></button>
+                  </div>
+                  <button class="phone-btn districom-next" type="button" data-districom-next aria-label="Next Districom screenshot">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
               <div class="project-overlay">
                 <span class="project-status"><span class="status-dot" aria-hidden="true"></span>deployed</span>
@@ -270,44 +302,110 @@
                 <a href="https://districom.vercel.app/" target="_blank" rel="noopener" class="visit-link"
                   aria-label="Open Districom Landing Page site">
                   <span class="visit-prompt" aria-hidden="true">$</span>
-                  <span class="visit-command">open districom.vercel.app</span>
+                  <span class="visit-command" data-i18n="visit_site">Visit Site</span>
                 </a>
               </div>
+              <div class="select-action" aria-hidden="true"></div>
             </article>
             <article class="project project2 project-second">
               <div class="browser-frame">
                 <div class="browser-bar">
-                  <span class="browser-url">github.com/alexalvez01/TaskCreator</span>
+                  <span class="browser-url">cheesy-bite-two.vercel.app</span>
                 </div>
-                <img src="./images/TaskApp.webp" class="project-img" alt="Task Management App screenshot"
-                  title="Task Management App" loading="lazy" decoding="async" />
+                <div class="cheesy-viewport">
+                  <div class="cheesy-track" id="cheesy-track">
+                    <div class="cheesy-slide">
+                      <img src="./images/CheesyBite/hero.webp" class="project-img" alt="CheesyBite hero screenshot"
+                        title="CheesyBite — Hero" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cheesy-slide">
+                      <img src="./images/CheesyBite/menu.webp" class="project-img" alt="CheesyBite menu screenshot"
+                        title="CheesyBite — Menu" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cheesy-slide">
+                      <img src="./images/CheesyBite/carrito.webp" class="project-img" alt="CheesyBite cart screenshot"
+                        title="CheesyBite — Carrito" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cheesy-slide">
+                      <img src="./images/CheesyBite/nosotros.webp" class="project-img" alt="CheesyBite about section screenshot"
+                        title="CheesyBite — Nosotros" loading="lazy" decoding="async" />
+                    </div>
+                  </div>
+                </div>
+                <div class="cheesy-nav">
+                  <button class="phone-btn cheesy-prev" type="button" data-cheesy-prev aria-label="Previous CheesyBite screenshot">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                  </button>
+                  <div class="cheesy-dots">
+                    <button class="cheesy-dot active" type="button" data-cheesy-dot="0" aria-label="Show CheesyBite screenshot 1" aria-current="true"></button>
+                    <button class="cheesy-dot" type="button" data-cheesy-dot="1" aria-label="Show CheesyBite screenshot 2"></button>
+                    <button class="cheesy-dot" type="button" data-cheesy-dot="2" aria-label="Show CheesyBite screenshot 3"></button>
+                    <button class="cheesy-dot" type="button" data-cheesy-dot="3" aria-label="Show CheesyBite screenshot 4"></button>
+                  </div>
+                  <button class="phone-btn cheesy-next" type="button" data-cheesy-next aria-label="Next CheesyBite screenshot">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
               <div class="project-overlay">
-                <span class="project-status"><span class="status-dot status-repo" aria-hidden="true"></span>open source</span>
-                <h3>Task Management App</h3>
-                <p class="project-desc" data-i18n="proj2_desc">Full Stack task manager with authentication, full CRUD,
-                  REST API and dynamic UI in dark mode.</p>
+                <span class="project-status"><span class="status-dot" aria-hidden="true"></span>deployed</span>
+                <h3>CheesyBite</h3>
+                <p class="project-desc" data-i18n="proj2_desc">Landing page for a burger restaurant with slide-out cart, WhatsApp
+                  checkout and delivery options in dark mode.</p>
                 <ul class="project-tech" aria-label="Tech stack">
+                  <li>Next.js</li>
+                  <li>TypeScript</li>
                   <li>React</li>
-                  <li>Express</li>
-                  <li>CSS</li>
-                  <li>PostgreSQL</li>
-                  <li>Docker</li>
+                  <li>Tailwind</li>
+                  <li>shadcn</li>
                 </ul>
-                <a href="https://github.com/alexalvez01/TaskCreator" target="_blank" rel="noopener" class="visit-link"
-                  aria-label="Open Task Creator repository">
+                <a href="https://cheesy-bite-two.vercel.app/" target="_blank" rel="noopener" class="visit-link"
+                  aria-label="Open CheesyBite website">
                   <span class="visit-prompt" aria-hidden="true">$</span>
-                  <span class="visit-command">open alexalvez01/TaskCreator</span>
+                  <span class="visit-command" data-i18n="visit_site">Visit Site</span>
                 </a>
               </div>
+              <div class="select-action" aria-hidden="true"></div>
             </article>
             <article class="project project1 ecommerce slide-from-left project-third">
               <div class="browser-frame">
                 <div class="browser-bar">
                   <span class="browser-url">amargo-y-dulce-omega.vercel.app</span>
                 </div>
-                <img src="./images/E-commerce.webp" class="project-img" alt="Amargo y Dulce screenshot"
-                  title="Amargo y Dulce" loading="lazy" decoding="async" />
+                <div class="amargo-viewport">
+                  <div class="amargo-track" id="amargo-track">
+                    <div class="amargo-slide">
+                      <img src="./images/Amargo-y-dulce/hero.webp" class="project-img" alt="Amargo y Dulce storefront hero screenshot"
+                        title="Amargo y Dulce — Hero" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="amargo-slide">
+                      <img src="./images/Amargo-y-dulce/tienda.webp" class="project-img" alt="Amargo y Dulce store catalog screenshot"
+                        title="Amargo y Dulce — Tienda" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="amargo-slide">
+                      <img src="./images/Amargo-y-dulce/nosotros.webp" class="project-img" alt="Amargo y Dulce about us screenshot"
+                        title="Amargo y Dulce — Nosotros" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="amargo-slide">
+                      <img src="./images/Amargo-y-dulce/panel-admin.webp" class="project-img" alt="Amargo y Dulce admin panel screenshot"
+                        title="Amargo y Dulce — Panel admin" loading="lazy" decoding="async" />
+                    </div>
+                  </div>
+                </div>
+                <div class="amargo-nav">
+                  <button class="phone-btn amargo-prev" type="button" data-amargo-prev aria-label="Previous Amargo y Dulce screenshot">
+                    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                  </button>
+                  <div class="amargo-dots">
+                    <button class="amargo-dot active" type="button" data-amargo-dot="0" aria-label="Show Amargo y Dulce screenshot 1" aria-current="true"></button>
+                    <button class="amargo-dot" type="button" data-amargo-dot="1" aria-label="Show Amargo y Dulce screenshot 2"></button>
+                    <button class="amargo-dot" type="button" data-amargo-dot="2" aria-label="Show Amargo y Dulce screenshot 3"></button>
+                    <button class="amargo-dot" type="button" data-amargo-dot="3" aria-label="Show Amargo y Dulce screenshot 4"></button>
+                  </div>
+                  <button class="phone-btn amargo-next" type="button" data-amargo-next aria-label="Next Amargo y Dulce screenshot">
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
               <div class="project-overlay">
                 <span class="project-status"><span class="status-dot" aria-hidden="true"></span>deployed</span>
@@ -325,10 +423,111 @@
                 <a href="https://amargo-y-dulce-omega.vercel.app/" target="_blank" rel="noopener" class="visit-link"
                   aria-label="Open Amargo y Dulce site">
                   <span class="visit-prompt" aria-hidden="true">$</span>
-                  <span class="visit-command">open amargo-y-dulce-omega.vercel.app</span>
+                  <span class="visit-command" data-i18n="visit_site">Visit Site</span>
                 </a>
 </div>
+              <div class="select-action" aria-hidden="true"></div>
             </article>
+            <div class="project-vialibre-wrap">
+            <article class="project project-vialibre project-fourth">
+              <div class="vialibre-hero-row">
+                <div class="project-overlay vialibre-overlay">
+                <span class="project-status"><span class="status-dot" aria-hidden="true"></span><span data-i18n="proj4_status">app + dashboard</span></span>
+                <h3>Vialibre</h3>
+                <p class="project-desc" data-i18n="proj4_desc">Vialibre is a collaborative platform for reporting urban accessibility obstacles in public spaces. Citizens report with photo and geolocation from a React Native mobile app, where AI validates the photographic evidence and suggests severity; municipal teams manage everything from a protected dashboard (React + Vite + Tailwind) with live metrics, a PostGIS map and AI verdicts.</p>
+                <ul class="project-tech" aria-label="Tech stack">
+                  <li>React Native</li>
+                  <li>Expo</li>
+                  <li>TypeScript</li>
+                  <li>NestJS</li>
+                  <li>Supabase</li>
+                  <li>PostgreSQL + PostGIS</li>
+                </ul>
+                <a href="https://github.com/Ciudadania-via-libre" target="_blank" rel="noopener" class="visit-link"
+                  aria-label="Open Vialibre organization on GitHub">
+                  <span class="visit-prompt" aria-hidden="true">$</span>
+                  <span class="visit-command" data-i18n="visit_repo">Visit Repo</span>
+                </a>
+                </div>
+                <div class="vialibre-mockup vialibre-mockup--phone">
+                  <p class="mockup-label" data-i18n="proj4_app_label">Mobile App</p>
+                  <div class="phone-carousel">
+                  <div class="phone-stage">
+                    <button class="phone-btn phone-prev" type="button" data-phone-prev aria-label="Previous app screen">
+                      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <div class="phone-frame">
+                      <div class="phone-notch" aria-hidden="true"></div>
+                      <div class="phone-screen" id="vialibre-phone-screen">
+                        <div class="phone-slide">
+                          <img src="./images/Vialibre/vialibre-screen-mapa.webp" alt="Vialibre app map screen showing nearby accessibility reports" loading="lazy" decoding="async" />
+                        </div>
+                        <div class="phone-slide">
+                          <img src="./images/Vialibre/vialibre-screen-reportar.webp" alt="Vialibre app report form screen with photo and location" loading="lazy" decoding="async" />
+                        </div>
+                        <div class="phone-slide">
+                          <img src="./images/Vialibre/vialibre-screen-reportes.webp" alt="Vialibre app reports list screen" loading="lazy" decoding="async" />
+                        </div>
+                        <div class="phone-slide">
+                          <img src="./images/Vialibre/vialibre-screen-perfil.webp" alt="Vialibre app profile screen" loading="lazy" decoding="async" />
+                        </div>
+                      </div>
+                      <div class="phone-home" aria-hidden="true"></div>
+                    </div>
+                    <button class="phone-btn phone-next" type="button" data-phone-next aria-label="Next app screen">
+                      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <div class="phone-dots">
+                    <button class="phone-dot active" type="button" data-phone-dot="0" aria-label="Show app screen 1" aria-current="true"></button>
+                    <button class="phone-dot" type="button" data-phone-dot="1" aria-label="Show app screen 2"></button>
+                    <button class="phone-dot" type="button" data-phone-dot="2" aria-label="Show app screen 3"></button>
+                     <button class="phone-dot" type="button" data-phone-dot="3" aria-label="Show app screen 4"></button>
+                  </div>
+                </div>
+                </div>
+</div>
+              <div class="select-action" aria-hidden="true"></div>
+            </article>
+            <div class="vialibre-mockup vialibre-mockup--dash">
+                  <p class="mockup-label" data-i18n="proj4_dash_label">Dashboard</p>
+                  <div class="browser-frame browser-frame--small vialibre-dash">
+                  <div class="browser-bar">
+                    <span class="browser-url">vialibre-dashboard — municipio</span>
+                  </div>
+                  <div class="vialibre-dash-viewport">
+                    <div class="vialibre-dash-track" id="vialibre-dash-track">
+                      <div class="vialibre-dash-slide">
+                        <img src="./images/Vialibre/vialibre-dash-panel-general.webp" alt="Vialibre dashboard general panel with live metrics" loading="lazy" decoding="async" />
+                      </div>
+                      <div class="vialibre-dash-slide">
+                        <img src="./images/Vialibre/vialibre-dash-gestion-reportes.webp" alt="Vialibre dashboard report management view" loading="lazy" decoding="async" />
+                      </div>
+                      <div class="vialibre-dash-slide">
+                        <img src="./images/Vialibre/vialibre-dash-mapa.webp" alt="Vialibre dashboard map with geolocated reports" loading="lazy" decoding="async" />
+                      </div>
+                      <div class="vialibre-dash-slide">
+                        <img src="./images/Vialibre/vialibre-dash-config.webp" alt="Vialibre dashboard settings view in dark theme" loading="lazy" decoding="async" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="vialibre-dash-nav">
+                    <button class="phone-btn vialibre-dash-prev" type="button" data-dash-prev aria-label="Previous dashboard view">
+                      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <div class="vialibre-dash-dots">
+                      <button class="vialibre-dash-dot active" type="button" data-dash-dot="0" aria-label="Show dashboard view 1" aria-current="true"></button>
+                      <button class="vialibre-dash-dot" type="button" data-dash-dot="1" aria-label="Show dashboard view 2"></button>
+                      <button class="vialibre-dash-dot" type="button" data-dash-dot="2" aria-label="Show dashboard view 3"></button>
+                      <button class="vialibre-dash-dot" type="button" data-dash-dot="3" aria-label="Show dashboard view 4"></button>
+                    </div>
+                    <button class="phone-btn vialibre-dash-next" type="button" data-dash-next aria-label="Next dashboard view">
+                      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

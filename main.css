@@ -725,9 +725,11 @@ body.no-scroll {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center 55%;
     position: relative;
     z-index: 0;
+    transform: scale(1.28);
+    transform-origin: center 48%;
     filter: contrast(1.1) saturate(1.1);
 }
 
@@ -882,7 +884,6 @@ body.no-scroll {
 }
 
 /* --- Contenido de secciones que sube escalonado (como las cards de proyectos) --- */
-.about-content,
 .tech-accordion,
 .experience-section .git-timeline {
     opacity: 0;
@@ -890,7 +891,6 @@ body.no-scroll {
     transition: translate .8s cubic-bezier(0.25, 1, 0.5, 1), opacity .8s ease;
 }
 
-.about-section.show .about-content,
 .tech-stack.show .tech-accordion,
 .experience-section.show .git-timeline {
     opacity: 1;
@@ -912,6 +912,40 @@ body.no-scroll {
 .about-content strong {
     color: #fff;
     font-weight: 600;
+}
+
+/* --- About en cascada: parrafos, timeline, skills y CV entran escalonados --- */
+.about-content > p,
+.about-content .git-timeline,
+.about-content .about-skills,
+.about-content .download-cv-container {
+    opacity: 0;
+    translate: 0 36px;
+    transition: translate .75s cubic-bezier(0.25, 1, 0.5, 1), opacity .75s ease;
+}
+
+.about-section.show .about-content > p,
+.about-section.show .about-content .git-timeline,
+.about-section.show .about-content .about-skills,
+.about-section.show .about-content .download-cv-container {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.about-section.show .about-content > p:nth-of-type(2) {
+    transition-delay: 0.2s;
+}
+
+.about-section.show .about-content .git-timeline {
+    transition-delay: 0.4s;
+}
+
+.about-section.show .about-content .about-skills {
+    transition-delay: 0.6s;
+}
+
+.about-section.show .about-content .download-cv-container {
+    transition-delay: 1.9s;
 }
 
 /* --- Git Timeline --- */
@@ -968,6 +1002,116 @@ body.no-scroll {
     box-shadow: 0 0 10px rgba(225, 29, 72, 0.6);
 }
 
+/* --- Animacion del timeline: la rama se dibuja y los commits aparecen --- */
+.about-section .git-timeline .git-branch {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s ease;
+}
+
+.about-section.show .git-timeline .git-branch {
+    transform: scaleY(1);
+    transition-delay: 0.42s;
+}
+
+.about-section .git-dot {
+    transform: scale(0);
+    transition: transform .45s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .3s ease, box-shadow .3s ease;
+}
+
+.about-section.show .git-commit:nth-child(1) .git-dot,
+.about-section.show .git-commit:nth-child(2) .git-dot {
+    transform: scale(1);
+}
+
+.about-section.show .git-commit:nth-child(1) .git-dot {
+    transition-delay: 0.48s;
+}
+
+.about-section.show .git-commit:nth-child(2) .git-dot {
+    transition-delay: 0.66s;
+}
+
+.about-section .git-content {
+    opacity: 0;
+    translate: 10px 0;
+    transition: opacity .5s ease, translate .5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.about-section.show .git-commit:nth-child(1) .git-content,
+.about-section.show .git-commit:nth-child(2) .git-content {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.about-section.show .git-commit:nth-child(1) .git-content {
+    transition-delay: 0.54s;
+}
+
+.about-section.show .git-commit:nth-child(2) .git-content {
+    transition-delay: 0.72s;
+}
+
+/* Evento de commit MARCADO: anillo que explota desde el dot */
+.git-dot::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border: 2px solid rgba(225, 29, 72, 0.55);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.3);
+}
+
+.about-section.show .git-commit:nth-child(1) .git-dot::after {
+    animation: commit-ring 0.7s ease-out 0.48s 1;
+}
+
+.about-section.show .git-commit:nth-child(2) .git-dot::after {
+    animation: commit-ring 0.7s ease-out 0.66s 1;
+}
+
+@keyframes commit-ring {
+    0% {
+        opacity: 0.9;
+        transform: scale(0.3);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2.1);
+    }
+}
+
+/* Destello que barre la fila del commit */
+.git-message::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent 0%, rgba(34, 211, 238, 0.22) 45%, rgba(34, 211, 238, 0.04) 60%, transparent 100%);
+    transform: translateX(-110%);
+}
+
+.about-section.show .git-commit:nth-child(1) .git-message::before {
+    animation: commit-flash 0.8s ease-out 0.56s 1;
+}
+
+.about-section.show .git-commit:nth-child(2) .git-message::before {
+    animation: commit-flash 0.8s ease-out 0.74s 1;
+}
+
+@keyframes commit-flash {
+    0% {
+        transform: translateX(-110%);
+    }
+    60% {
+        transform: translateX(15%);
+    }
+    100% {
+        transform: translateX(110%);
+    }
+}
+
 .git-content {
     display: flex;
     flex-direction: column;
@@ -979,6 +1123,8 @@ body.no-scroll {
     font-size: 0.95rem;
     line-height: 1.4;
     word-break: break-word;
+    position: relative;
+    overflow: hidden;
 }
 
 .git-branch-name {
@@ -1018,6 +1164,42 @@ body.no-scroll {
     font-size: 1.2rem;
     margin-bottom: 25px;
     letter-spacing: 0.04em;
+}
+
+/* --- Soft skills aparecen una a una con rebote --- */
+.about-skills .skill-pill {
+    opacity: 0;
+    translate: 0 56px;
+    scale: 0.72;
+    rotate: -5deg;
+    transition: opacity .55s ease, translate .68s cubic-bezier(0.34, 1.72, 0.64, 1), scale .68s cubic-bezier(0.34, 1.72, 0.64, 1), rotate .68s cubic-bezier(0.34, 1.72, 0.64, 1);
+}
+
+.about-section.show .about-skills .skill-pill {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    rotate: 0deg;
+}
+
+.about-section.show .about-skills .skill-pill:nth-child(1) {
+    transition-delay: 0.8s;
+}
+
+.about-section.show .about-skills .skill-pill:nth-child(2) {
+    transition-delay: 1.0s;
+}
+
+.about-section.show .about-skills .skill-pill:nth-child(3) {
+    transition-delay: 1.2s;
+}
+
+.about-section.show .about-skills .skill-pill:nth-child(4) {
+    transition-delay: 1.4s;
+}
+
+.about-section.show .about-skills .skill-pill:nth-child(5) {
+    transition-delay: 1.6s;
 }
 
 .skills-container {
@@ -1208,7 +1390,7 @@ body.no-scroll {
 .container-projects {
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: 64px;
     width: 100%;
     margin-top: 20px;
 }
@@ -1241,7 +1423,7 @@ body.no-scroll {
     height: auto;
     width: 100%;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     user-select: none;
     -webkit-user-select: none;
     border-radius: 32px;
@@ -1272,27 +1454,64 @@ body.no-scroll {
     background: linear-gradient(-90deg, transparent 45%, rgba(0, 0, 0, 0.28) 100%);
 }
 
-.project-section.show .project {
+.project.project-in {
     opacity: 1;
     translate: 0 0;
 }
 
-.project-section.show .project-primary {
-    transition-delay: 0.1s;
+/* --- Entrada de proyectos: imagen chica que crece, texto en cascada --- */
+.project .browser-frame,
+.vialibre-mockup--phone .phone-frame {
+    opacity: 0;
+    transform: scale(0.72);
+    transform-origin: center;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease;
 }
 
-.project-section.show .project-second {
-    transition-delay: 0.3s;
+/* Fotos de capturas: TODAS exactamente 2:1 (misma altura en las tres cards,
+   sin recorte). El marco de las cards con carrusel suma barra + foto + nav;
+   las tres cards con carrusel usan viewport 2:1. */
+.project:nth-child(1) .browser-frame,
+.project:nth-child(2) .browser-frame,
+.project:nth-child(3) .browser-frame {
+    align-self: flex-start;
 }
 
-.project-section.show .project-third {
-    transition-delay: 0.5s;
+.project-in .browser-frame,
+.project-in .vialibre-mockup--phone .phone-frame {
+    opacity: 1;
+    transform: scale(1);
 }
 
-.project:hover {
-    border-color: rgba(225, 29, 72, 0.45);
-    box-shadow: 0 0 30px rgba(225, 29, 72, 0.12);
-    transition-delay: 0s !important;
+.project-overlay > * {
+    opacity: 0;
+    translate: 0 16px;
+    transition: opacity 0.5s var(--ease-out), translate 0.5s var(--ease-out);
+}
+
+.project-in .project-overlay > * {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.project-in .project-overlay > :nth-child(1) {
+    transition-delay: 0.18s;
+}
+
+.project-in .project-overlay > :nth-child(2) {
+    transition-delay: 0.30s;
+}
+
+.project-in .project-overlay > :nth-child(3) {
+    transition-delay: 0.42s;
+}
+
+.project-in .project-overlay > :nth-child(4) {
+    transition-delay: 0.54s;
+}
+
+.project-in .project-overlay > :nth-child(5) {
+    transition-delay: 0.66s;
 }
 
 .project-second {
@@ -1313,9 +1532,14 @@ body.no-scroll {
     align-self: stretch;
 }
 
+.project .browser-frame {
+    border-radius: 32px 0 0 32px;
+}
+
 .project-second .browser-frame {
     border-right: none;
     border-left: 1px solid var(--border);
+    border-radius: 0 32px 32px 0;
 }
 
 .browser-bar {
@@ -1351,11 +1575,74 @@ body.no-scroll {
     display: block;
     object-fit: cover;
     object-position: top center;
-    transition: filter 0.3s ease;
+    cursor: zoom-in;
+    transition: filter 0.3s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project:hover .project-img {
-    filter: brightness(1.08);
+@media (hover: hover) {
+    .project-img:hover {
+        filter: brightness(1.05);
+        transform: scale(1.06);
+    }
+
+    .vialibre-dash-slide img:hover {
+        transform: scale(1.06);
+    }
+
+    /* Efecto "seleccionar": la card se corre hacia el lado de su foto
+       y un cajón de acción rojo aparece al costado del texto (estilo
+       "deslizar para borrar" de iOS). */
+    .project.project-in:hover {
+        translate: -16px 0;
+    }
+
+    .project.project-in.project-second:hover {
+        translate: 16px 0;
+    }
+
+    .project-in:hover .select-action {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+}
+
+/* Marcador de selección: barra vertical, altura completa de la card,
+   pegada FUERA del borde del lado del texto. Se revela al hover y se
+   desliza junto con el corrimiento de la card. */
+.select-action {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -7px;
+    width: 7px;
+    z-index: 4;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+    box-shadow: 0 0 14px rgba(74, 222, 128, 0.55), 0 0 30px rgba(74, 222, 128, 0.22);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(5px);
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.3s;
+}
+
+/* Foto a la derecha (CheesyBite): el texto vive a la izquierda,
+   así que la barra va en el borde izquierdo, espejando a las otras. */
+.project-second .select-action {
+    right: auto;
+    left: -7px;
+    border-radius: 999px 0 0 999px;
+    transform: translateX(-5px);
+}
+
+/* Vialibre (card 4): el texto del hero row vive a la izquierda,
+   así que la barra va en el borde izquierdo de la card. */
+.project-vialibre .select-action {
+    right: auto;
+    left: -7px;
+    border-radius: 999px 0 0 999px;
+    transform: translateX(-5px);
 }
 
 .project-overlay {
@@ -1531,6 +1818,10 @@ body.no-scroll {
         flex: none;
     }
 
+    .project .browser-frame {
+        border-radius: 32px 32px 0 0;
+    }
+
     .project-overlay {
         width: 100%;
         padding: 40px 20px;
@@ -1594,6 +1885,10 @@ body.no-scroll {
         height: 300px;
         min-height: 300px;
         flex: none;
+    }
+
+    .project .browser-frame {
+        border-radius: 32px 32px 0 0;
     }
 
     .project-overlay {
@@ -1927,4 +2222,534 @@ body.no-scroll {
 
 a {
     text-underline-offset: 4px;
+}
+
+/* --- Vialibre project card (4th project): phone + dashboard carousels --- */
+.project-vialibre-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+}
+
+.project-vialibre {
+    flex-direction: column;
+    overflow: visible;
+}
+
+.project-vialibre::before {
+    background: none;
+}
+
+.vialibre-hero-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    width: 100%;
+    position: relative;
+    z-index: 3;
+}
+
+.vialibre-mockup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.vialibre-mockup--phone {
+    flex: 0 1 300px;
+    animation: vialibre-float 6s ease-in-out infinite;
+}
+
+@keyframes vialibre-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.vialibre-mockup--dash {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    padding: 8px 44px 40px;
+}
+
+.mockup-label {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Phone carousel (primary visual) */
+.phone-carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.phone-stage {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.phone-frame {
+    position: relative;
+    width: min(300px, 68vw);
+    padding: 12px;
+    border-radius: 48px;
+    background: linear-gradient(160deg, #232329 0%, #0b0b0e 45%, #1c1c22 100%);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 44px rgba(225, 29, 72, 0.1);
+}
+
+.phone-notch {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 24px;
+    border-radius: 999px;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.phone-screen {
+    position: relative;
+    aspect-ratio: 9 / 19;
+    border-radius: 36px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior: contain;
+    background: #000;
+}
+
+.phone-screen::-webkit-scrollbar {
+    display: none;
+}
+
+.phone-slide {
+    height: 100%;
+}
+
+.phone-slide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.phone-home {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.phone-btn {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.phone-btn:hover,
+.phone-btn:focus-visible {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.09);
+    border-color: var(--border-strong);
+}
+
+.phone-btn:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+}
+
+.phone-dots,
+.vialibre-dash-dots,
+.districom-dots,
+.amargo-dots,
+.cheesy-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.phone-dot,
+.vialibre-dash-dot,
+.districom-dot,
+.amargo-dot,
+.cheesy-dot {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.phone-dot::after,
+.vialibre-dash-dot::after,
+.districom-dot::after,
+.amargo-dot::after,
+.cheesy-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    background: transparent;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.phone-dot:hover::after,
+.vialibre-dash-dot:hover::after,
+.districom-dot:hover::after,
+.amargo-dot:hover::after,
+.cheesy-dot:hover::after {
+    border-color: rgba(255, 255, 255, 0.75);
+}
+
+.phone-dot.active::after,
+.vialibre-dash-dot.active::after,
+.districom-dot.active::after,
+.amargo-dot.active::after,
+.cheesy-dot.active::after {
+    border-color: #ffffff;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.phone-dot:focus-visible,
+.vialibre-dash-dot:focus-visible,
+.districom-dot:focus-visible,
+.amargo-dot:focus-visible,
+.cheesy-dot:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 0;
+}
+
+/* Dashboard carousel (secondary visual, reuses browser-frame look) */
+.vialibre-dash.browser-frame {
+    width: min(1120px, 100%);
+    max-width: 1120px;
+    margin-inline: auto;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.vialibre-dash-viewport {
+    overflow: hidden;
+    aspect-ratio: 2 / 1;
+    background: #000;
+}
+
+.vialibre-dash-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.55s var(--ease-out);
+}
+
+.vialibre-dash-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.vialibre-dash-slide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+    cursor: zoom-in;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Districom carousel (card 1): mismo patron horizontal que el dashboard */
+.districom-viewport {
+    overflow: hidden;
+    aspect-ratio: 2 / 1;
+    background: #000;
+}
+
+.districom-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.55s var(--ease-out);
+}
+
+.districom-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.districom-slide .project-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.districom-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 8px 10px;
+    background: #16161a;
+    border-top: 1px solid var(--border);
+}
+
+/* Amargo y Dulce carousel (card 3): mismo patron que Districom */
+.amargo-viewport {
+    overflow: hidden;
+    aspect-ratio: 2 / 1;
+    background: #000;
+}
+
+.amargo-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.55s var(--ease-out);
+}
+
+.amargo-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.amargo-slide .project-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.amargo-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 8px 10px;
+    background: #16161a;
+    border-top: 1px solid var(--border);
+}
+
+/* CheesyBite carousel (card 2): mismo patron que Districom/Amargo */
+.cheesy-viewport {
+    overflow: hidden;
+    aspect-ratio: 2 / 1;
+    background: #000;
+}
+
+.cheesy-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.55s var(--ease-out);
+}
+
+.cheesy-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cheesy-slide .project-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.cheesy-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 8px 10px;
+    background: #16161a;
+    border-top: 1px solid var(--border);
+}
+
+.vialibre-dash-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 12px;
+    background: #16161a;
+    border-top: 1px solid var(--border);
+}
+
+/* Overlay is the left text column of the hero row */
+.vialibre-overlay {
+    width: auto;
+    flex: 1 1 460px;
+    min-width: 0;
+    align-items: flex-start;
+    text-align: left;
+    padding: 40px 56px 40px 44px;
+}
+
+.vialibre-overlay .project-tech {
+    justify-content: flex-start;
+}
+
+.vialibre-overlay .visit-link {
+    align-self: flex-start;
+}
+
+@media screen and (max-width: 1000px) {
+    .vialibre-hero-row {
+        flex-direction: column;
+    }
+
+    .vialibre-mockup {
+        width: 100%;
+    }
+
+    .vialibre-mockup--phone {
+        flex: 0 1 auto;
+        animation: none;
+    }
+
+    .vialibre-mockup--dash {
+        padding: 8px 20px 32px;
+    }
+
+    .vialibre-dash.browser-frame {
+        width: 100%;
+        max-width: 1120px;
+    }
+
+    .phone-stage {
+        gap: 12px;
+    }
+
+    .vialibre-overlay {
+        width: 100%;
+        padding: 28px 20px;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .sidebar {
+        transition: width 0.5s var(--ease-out);
+    }
+
+    /* Ancho fijo mientras la sidebar colapsa: sin reflow, el texto de la
+       card no envuelve y el alto no cambia. El translateX(-380px) corre
+       más rápido que el encogido (0→320px), así la card nunca invade
+       el área de contenido. */
+    .profile-card {
+        width: 320px;
+    }
+
+    body.vialibre-active .sidebar {
+        width: 0;
+    }
+
+    body.vialibre-active .profile-card {
+        transform: translateX(-380px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.5s var(--ease-out), opacity 0.5s var(--ease-out), visibility 0.5s;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .phone-frame {
+        width: min(260px, 64vw);
+    }
+
+    .phone-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vialibre-dash-track {
+        transition: none;
+    }
+
+    .vialibre-mockup--phone {
+        animation: none;
+    }
+
+    .sidebar,
+    .profile-card,
+    .vialibre-hero-row {
+        transition: none;
+    }
+
+    /* Sin escalonado: todo aparece junto al instante */
+    .about-content > p,
+    .about-content .git-timeline,
+    .about-content .about-skills,
+    .about-content .download-cv-container,
+    .about-skills .skill-pill,
+    .about-section .git-branch,
+    .about-section .git-dot,
+    .about-section .git-content {
+        transition-delay: 0s !important;
+    }
+
+    .about-section .git-dot::after,
+    .about-section .git-message::before {
+        animation-delay: 0s !important;
+    }
 }

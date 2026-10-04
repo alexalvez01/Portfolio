@@ -56,7 +56,28 @@ document.addEventListener("DOMContentLoaded", () => {
   if (profileCard) sectionObserver.observe(profileCard);
 
   const aboutSection = document.querySelector(".about-section");
-  if (aboutSection) sectionObserver.observe(aboutSection);
+  if (aboutSection) {
+    // Animacion de About: dispara recien cuando la seccion sube lo
+    // suficiente en el viewport (borde inferior recortado 35%), no apenas
+    // asoma por abajo.
+    const aboutObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            const h2 = entry.target.querySelector("h2");
+            if (h2 && !h2.dataset.typingStarted && !entry.target.classList.contains("profile-card")) {
+              typeWriterOnce(h2, 150);
+            }
+          } else {
+            entry.target.classList.remove("show");
+          }
+        });
+      },
+      { rootMargin: "0px 0px -35% 0px", threshold: 0.15 }
+    );
+    aboutObserver.observe(aboutSection);
+  }
 
   const techStackSection = document.querySelector(".tech-stack");
   if (techStackSection) sectionObserver.observe(techStackSection);
@@ -361,6 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addLine('  <span class="cyan">1.</span> <span class="cmd">Task Management App</span>');
         addLine('  <span class="cyan">2.</span> <span class="cmd">Amargo y Dulce (E-commerce)</span>');
         addLine('  <span class="cyan">3.</span> <span class="cmd">Districom Landing Page</span>');
+        addLine('  <span class="cyan">4.</span> <span class="cmd">Vialibre (Mobile + Dashboard)</span>');
         addLine('');
         addLine('  <span class="yellow">↓ Scroll down to see more</span>');
         addLine('');
@@ -455,8 +477,12 @@ document.addEventListener("DOMContentLoaded", () => {
       projects_title: "MY PROJECTS",
       experience_title: "WORK EXPERIENCE",
       proj1_desc: "Premium landing page for a technology company featuring an interactive 3D hero, real-time business status, and a modern aesthetic.",
-      proj2_desc: "Full Stack task manager with authentication, full CRUD, REST API and dynamic UI in dark mode.",
+      proj2_desc: "Landing page for a burger restaurant with slide-out cart, WhatsApp checkout and delivery options in dark mode.",
       proj3_desc: "Full-featured e-commerce with Mercado Pago and Google integration, shopping cart, shipment tracking and admin dashboard.",
+      proj4_status: "app + dashboard",
+      proj4_desc: "Vialibre is a collaborative platform for reporting urban accessibility obstacles in public spaces. Citizens report with photo and geolocation from a React Native mobile app, where AI validates the photographic evidence and suggests severity; municipal teams manage everything from a protected dashboard (React + Vite + Tailwind) with live metrics, a PostGIS map and AI verdicts.",
+      proj4_dash_label: "Dashboard",
+      proj4_app_label: "Mobile App",
       visit_site: "Visit Site",
       visit_repo: "Visit Repo"
     },
@@ -482,8 +508,12 @@ document.addEventListener("DOMContentLoaded", () => {
       projects_title: "MIS PROYECTOS",
       experience_title: "EXPERIENCIA LABORAL",
       proj1_desc: "Landing page premium para una empresa de tecnología con un hero 3D interactivo, estado de la empresa en tiempo real y una estética moderna.",
-      proj2_desc: "Administrador de tareas Full Stack con autenticación, CRUD completo, API REST y UI dinámica en modo oscuro.",
+      proj2_desc: "Landing para hamburguesería con carrito deslizante, checkout por WhatsApp y selector de entrega en modo oscuro.",
       proj3_desc: "E-commerce completo con integración de Mercado Pago y Google, carrito de compras, seguimiento de envíos y panel de administración.",
+      proj4_status: "app + dashboard",
+      proj4_desc: "Vialibre es una plataforma colaborativa para reportar obstáculos de accesibilidad en el espacio público. Los ciudadanos reportan con foto y geolocalización desde una app móvil en React Native, donde la IA valida la evidencia fotográfica y sugiere la severidad; los equipos municipales gestionan todo desde un panel protegido (React + Vite + Tailwind) con métricas en vivo, mapa PostGIS y veredictos de IA.",
+      proj4_dash_label: "Panel",
+      proj4_app_label: "App movil",
       visit_site: "Visitar Sitio",
       visit_repo: "Visitar Repositorio"
     }
@@ -551,6 +581,249 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(() => {
         /* Sin conexión o error: queda el hash placeholder */
       });
+  }
+
+  // --- Vialibre carousels: phone (vertical scroll) + dashboard (horizontal track) ---
+  // Self-contained, no dependencies. Respects prefers-reduced-motion (instant jump).
+  const initVialibreCarousels = () => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
+
+    // Phone: slides stacked vertically, JS animates scrollTop like a real phone scroll
+    const phoneScreen = document.getElementById('vialibre-phone-screen');
+    if (phoneScreen) {
+      const slides = Array.from(phoneScreen.querySelectorAll('.phone-slide'));
+      const prevBtn = document.querySelector('[data-phone-prev]');
+      const nextBtn = document.querySelector('[data-phone-next]');
+      const dots = Array.from(document.querySelectorAll('[data-phone-dot]'));
+      let phoneIndex = 0;
+      let phoneToken = 0;
+      let phoneAnimating = false;
+
+      const setPhoneDots = (i) => {
+        dots.forEach((d, k) => {
+          d.classList.toggle('active', k === i);
+          if (k === i) d.setAttribute('aria-current', 'true');
+          else d.removeAttribute('aria-current');
+        });
+      };
+
+      // Measured on demand from live layout: robust to lazy image loading
+      const phoneSlideTop = (i) => {
+        const target = slides[i];
+        if (!target) return 0;
+        const screenRect = phoneScreen.getBoundingClientRect();
+        const slideRect = target.getBoundingClientRect();
+        return phoneScreen.scrollTop + (slideRect.top - screenRect.top);
+      };
+
+      const animateScrollTop = (from, to, duration, done) => {
+        const token = ++phoneToken;
+        phoneAnimating = true;
+        const maxTop = phoneScreen.scrollHeight - phoneScreen.clientHeight;
+        let start = null;
+        const finishing = () => {
+          phoneScreen.scrollTop = Math.max(0, Math.min(to, maxTop));
+          phoneAnimating = false;
+          if (done) done();
+        };
+        const step = (now) => {
+          if (token !== phoneToken) {
+            phoneAnimating = false;
+            return;
+          }
+          if (start === null) start = now;
+          const t = Math.min((now - start) / duration, 1);
+          phoneScreen.scrollTop = from + (to - from) * easeOutQuart(t);
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            phoneScreen.scrollTop = to;
+            finishing();
+          }
+        };
+        requestAnimationFrame(step);
+      };
+
+      const goToPhone = (i) => {
+        if (!slides.length) return;
+        phoneIndex = ((i % slides.length) + slides.length) % slides.length;
+        setPhoneDots(phoneIndex);
+        const target = phoneSlideTop(phoneIndex);
+        if (reduceMotion) {
+          phoneToken++;
+          phoneAnimating = false;
+          phoneScreen.scrollTop = target;
+          return;
+        }
+        if (Math.abs(target - phoneScreen.scrollTop) < 1) {
+          phoneToken++;
+          phoneAnimating = false;
+          return;
+        }
+        animateScrollTop(phoneScreen.scrollTop, target, 720);
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goToPhone(phoneIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goToPhone(phoneIndex + 1));
+      dots.forEach((d) => {
+        d.addEventListener('click', () => goToPhone(parseInt(d.getAttribute('data-phone-dot'), 10) || 0));
+      });
+
+      // Keep dots in sync if the user scrolls the screen manually
+      let scrollTimer = null;
+      phoneScreen.addEventListener('scroll', () => {
+        if (phoneAnimating) return;
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          const h = phoneScreen.clientHeight || 1;
+          const nearest = Math.round(phoneScreen.scrollTop / h);
+          phoneIndex = Math.max(0, Math.min(slides.length - 1, nearest));
+          setPhoneDots(phoneIndex);
+        }, 120);
+      }, { passive: true });
+    }
+
+    // Dashboard: classic horizontal track with translateX
+    const dashTrack = document.getElementById('vialibre-dash-track');
+    if (dashTrack) {
+      const slides = Array.from(dashTrack.querySelectorAll('.vialibre-dash-slide'));
+      const prevBtn = document.querySelector('[data-dash-prev]');
+      const nextBtn = document.querySelector('[data-dash-next]');
+      const dots = Array.from(document.querySelectorAll('[data-dash-dot]'));
+      let dashIndex = 0;
+
+      const goToDash = (i) => {
+        if (!slides.length) return;
+        dashIndex = ((i % slides.length) + slides.length) % slides.length;
+        dashTrack.style.transform = `translateX(-${dashIndex * 100}%)`;
+        dots.forEach((d, k) => {
+          d.classList.toggle('active', k === dashIndex);
+          if (k === dashIndex) d.setAttribute('aria-current', 'true');
+          else d.removeAttribute('aria-current');
+        });
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goToDash(dashIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goToDash(dashIndex + 1));
+      dots.forEach((d) => {
+        d.addEventListener('click', () => goToDash(parseInt(d.getAttribute('data-dash-dot'), 10) || 0));
+      });
+    }
+
+    // Districom (card 1): mismo patron horizontal con translateX que el dashboard
+    const districomTrack = document.getElementById('districom-track');
+    if (districomTrack) {
+      const slides = Array.from(districomTrack.querySelectorAll('.districom-slide'));
+      const prevBtn = document.querySelector('[data-districom-prev]');
+      const nextBtn = document.querySelector('[data-districom-next]');
+      const dots = Array.from(document.querySelectorAll('[data-districom-dot]'));
+      let districomIndex = 0;
+
+      const goToDistricom = (i) => {
+        if (!slides.length) return;
+        districomIndex = ((i % slides.length) + slides.length) % slides.length;
+        districomTrack.style.transform = `translateX(-${districomIndex * 100}%)`;
+        dots.forEach((d, k) => {
+          d.classList.toggle('active', k === districomIndex);
+          if (k === districomIndex) d.setAttribute('aria-current', 'true');
+          else d.removeAttribute('aria-current');
+        });
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goToDistricom(districomIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goToDistricom(districomIndex + 1));
+      dots.forEach((d) => {
+        d.addEventListener('click', () => goToDistricom(parseInt(d.getAttribute('data-districom-dot'), 10) || 0));
+      });
+    }
+
+    // Amargo y Dulce (card 3): mismo patron horizontal con translateX
+    const amargoTrack = document.getElementById('amargo-track');
+    if (amargoTrack) {
+      const slides = Array.from(amargoTrack.querySelectorAll('.amargo-slide'));
+      const prevBtn = document.querySelector('[data-amargo-prev]');
+      const nextBtn = document.querySelector('[data-amargo-next]');
+      const dots = Array.from(document.querySelectorAll('[data-amargo-dot]'));
+      let amargoIndex = 0;
+
+      const goToAmargo = (i) => {
+        if (!slides.length) return;
+        amargoIndex = ((i % slides.length) + slides.length) % slides.length;
+        amargoTrack.style.transform = `translateX(-${amargoIndex * 100}%)`;
+        dots.forEach((d, k) => {
+          d.classList.toggle('active', k === amargoIndex);
+          if (k === amargoIndex) d.setAttribute('aria-current', 'true');
+          else d.removeAttribute('aria-current');
+        });
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goToAmargo(amargoIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goToAmargo(amargoIndex + 1));
+      dots.forEach((d) => {
+        d.addEventListener('click', () => goToAmargo(parseInt(d.getAttribute('data-amargo-dot'), 10) || 0));
+      });
+    }
+
+    // CheesyBite (card 2): mismo patron horizontal con translateX
+    const cheesyTrack = document.getElementById('cheesy-track');
+    if (cheesyTrack) {
+      const slides = Array.from(cheesyTrack.querySelectorAll('.cheesy-slide'));
+      const prevBtn = document.querySelector('[data-cheesy-prev]');
+      const nextBtn = document.querySelector('[data-cheesy-next]');
+      const dots = Array.from(document.querySelectorAll('[data-cheesy-dot]'));
+      let cheesyIndex = 0;
+
+      const goToCheesy = (i) => {
+        if (!slides.length) return;
+        cheesyIndex = ((i % slides.length) + slides.length) % slides.length;
+        cheesyTrack.style.transform = `translateX(-${cheesyIndex * 100}%)`;
+        dots.forEach((d, k) => {
+          d.classList.toggle('active', k === cheesyIndex);
+          if (k === cheesyIndex) d.setAttribute('aria-current', 'true');
+          else d.removeAttribute('aria-current');
+        });
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goToCheesy(cheesyIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goToCheesy(cheesyIndex + 1));
+      dots.forEach((d) => {
+        d.addEventListener('click', () => goToCheesy(parseInt(d.getAttribute('data-cheesy-dot'), 10) || 0));
+      });
+    }
+  };
+
+  initVialibreCarousels();
+
+  // --- Sidebar slides left while the projects section is in view ---
+  // Small threshold: the section is tall, so any visible part counts.
+  // Removing the class when it leaves restores the sidebar.
+  const projectsSection = document.querySelector('#projects-section');
+  if (projectsSection && 'IntersectionObserver' in window) {
+    const projectsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          document.body.classList.toggle('vialibre-active', entry.isIntersecting);
+        });
+      },
+      { threshold: 0.05 }
+    );
+    projectsObserver.observe(projectsSection);
+  }
+
+  // --- Reveal individual por proyecto ---
+  // Cada card entra por separado al volverse visible; una vez revelada, queda.
+  const projectCards = document.querySelectorAll('.project');
+  if ('IntersectionObserver' in window && projectCards.length) {
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('project-in');
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+    projectCards.forEach((card) => cardObserver.observe(card));
   }
 
   // --- Sección de proyectos: columna estática, reveal al scrollear ---
