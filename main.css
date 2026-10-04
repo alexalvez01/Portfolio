@@ -157,8 +157,17 @@ html::-webkit-scrollbar-thumb:hover {
 #hero,
 #about-section,
 #tech-section,
-#projects-section {
+#projects-section,
+#profile {
     scroll-margin-top: 60px;
+}
+
+html {
+    /* Fallback iOS < 16 no soporta clip; en modernos gana clip, que
+       recorta sin crear scroll-container (no rompe la navegación por
+       anclas del nav). */
+    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
@@ -1853,6 +1862,9 @@ body.no-scroll {
         position: relative;
         top: 0;
         width: 100%;
+        /* En mobile la card de perfil (contacto) va al FINAL de la
+           página; el nav la alcanza con el icono de teléfono (#profile). */
+        order: 2;
     }
 
     .box:nth-child(2) {
@@ -1924,12 +1936,19 @@ body.no-scroll {
 
     .presentation h1 {
         white-space: normal;
-        font-size: clamp(1.4rem, 6vw, 2.4rem);
+        font-size: clamp(1.7rem, 7.5vw, 3rem);
     }
 
     .terminal {
         width: 100%;
         max-width: 100%;
+    }
+
+    /* Hero mobile: al terminar el boot la consola desaparece y el título
+       queda solo, ocupando todo el ancho. El estado "booting" se quita
+       desde JS cuando la secuencia termina. */
+    .hero-content:not(.booting) .terminal {
+        display: none;
     }
 
     /* --- Content area responsive --- */
@@ -1939,7 +1958,7 @@ body.no-scroll {
 
     /* --- Language Switcher --- */
     .lang-switcher {
-        top: 15px;
+        top: 58px;
         right: 15px;
         padding: 6px 10px;
     }
@@ -1973,6 +1992,31 @@ body.no-scroll {
     .project-section {
         padding: 20px 20px 40px 20px;
     }
+
+    /* Proyectos SIEMPRE visibles en mobile: el reveal por observer
+       (opacity 0 -> .project-in) puede no dispararse en pantallas
+       chicas, así que acá la visibilidad no depende de él. Se pierde
+       la entrada animada escalonada, pero las cards siempre se ven. */
+    .project-section {
+        opacity: 1;
+    }
+
+    .project,
+    .project-in {
+        opacity: 1;
+        translate: none;
+    }
+
+    .project .browser-frame,
+    .vialibre-mockup--phone .phone-frame {
+        opacity: 1;
+        transform: none;
+    }
+
+    .project-overlay > * {
+        opacity: 1;
+        translate: none;
+    }
 }
 
 
@@ -1993,7 +2037,7 @@ body.no-scroll {
     }
 
     .presentation h1 {
-        font-size: clamp(1.2rem, 5vw, 1.8rem);
+        font-size: clamp(1.5rem, 6.5vw, 2.3rem);
     }
 
     .glitch-text {
@@ -2685,6 +2729,12 @@ a {
 }
 
 @media screen and (min-width: 1001px) {
+    /* El icono de contacto (teléfono) es solo mobile: en desktop la card
+       de perfil ya está visible (sticky) y el nav queda con 5 iconos. */
+    .nav-contact {
+        display: none;
+    }
+
     .sidebar {
         transition: width 0.5s var(--ease-out);
     }
@@ -2697,6 +2747,12 @@ a {
         width: 320px;
     }
 
+    /* La sidebar colapsa a 0 (el contenido pasa al centro) y el loop de
+       parpadeo se evita en el OBSERVER: la franja central (rootMargin
+       -15%/-25%) separa activación y desactivación, así el reflow del
+       colapso no vuelve a disparar el toggle en el borde
+       proyectos→experiencia. La card mantiene su ancho fijo (320px)
+       para no re-envolver texto mientras se desliza. */
     body.vialibre-active .sidebar {
         width: 0;
     }
@@ -2712,7 +2768,11 @@ a {
 
 @media screen and (max-width: 480px) {
     .phone-frame {
-        width: min(260px, 64vw);
+        width: min(240px, 56vw);
+    }
+
+    .phone-stage {
+        gap: 8px;
     }
 
     .phone-btn {

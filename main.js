@@ -82,8 +82,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const techStackSection = document.querySelector(".tech-stack");
   if (techStackSection) sectionObserver.observe(techStackSection);
 
+  // Sección de proyectos: umbral BAJO y reveal permanente. Con el umbral
+  // compartido (0.2 = 20% visible) el .show nunca se agregaba: la sección es
+  // tan alta en mobile que jamás llega a 20% dentro del viewport, y sin .show
+  // quedaba en opacity 0 → "no se ven los proyectos". Una vez revelada, se
+  // queda (sin quitar .show al salir, no parpadea).
   const projectSection = document.querySelector(".project-section");
-  if (projectSection) sectionObserver.observe(projectSection);
+  if (projectSection) {
+    const projectsObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            const h2 = entry.target.querySelector("h2");
+            if (h2 && !h2.dataset.typingStarted && !entry.target.classList.contains("profile-card")) {
+              typeWriterOnce(h2, 150);
+            }
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    projectsObserver.observe(projectSection);
+  }
 
   const experienceSection = document.querySelector(".experience-section");
   if (experienceSection) sectionObserver.observe(experienceSection);
@@ -430,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Scroll Spy para el Nav ---
   const navLinks = document.querySelectorAll('.nav-icon');
-  const sections = document.querySelectorAll('#hero, #about-section, #tech-section, #projects-section, #experience-section');
+  const sections = document.querySelectorAll('#hero, #about-section, #tech-section, #projects-section, #experience-section, #profile');
 
   if (navLinks.length && sections.length) {
     const setActive = (id) => {
@@ -451,6 +472,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { rootMargin: '-40% 0px -55% 0px' });
 
     sections.forEach(section => spyObserver.observe(section));
+  }
+
+  // --- Botón de contacto (teléfono) ---
+  // Scroll directo a la card de perfil con scrollIntoView: no depende de
+  // la navegación por anclas (#profile), que en algunos móviles no
+  // scrollea cuando el contenedor raíz tiene overflow-x recortado.
+  const contactLink = document.querySelector('a[href="#profile"]');
+  if (contactLink) {
+    contactLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const profile = document.getElementById('profile');
+      if (profile) profile.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }
 
   // --- Lógica de cambio de idioma ---
@@ -796,8 +830,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initVialibreCarousels();
 
   // --- Sidebar slides left while the projects section is in view ---
-  // Small threshold: the section is tall, so any visible part counts.
-  // Removing the class when it leaves restores the sidebar.
+  // Franja central como histéresis: se activa cuando la sección toca el
+  // 60% central del viewport y se desactiva al salir de esa franja, no en
+  // el borde exacto. Con threshold 0.05 el flapeo en el límite
+  // proyectos→experiencia + el reflow del colapso se retroalimentaban y
+  // el layout parpadeaba; la franja separa los puntos de toggle y rompe
+  // el loop aunque la sidebar colapse (width 0 → contenido al centro).
   const projectsSection = document.querySelector('#projects-section');
   if (projectsSection && 'IntersectionObserver' in window) {
     const projectsObserver = new IntersectionObserver(
@@ -806,7 +844,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.body.classList.toggle('vialibre-active', entry.isIntersecting);
         });
       },
-      { threshold: 0.05 }
+      { rootMargin: '-15% 0px -25% 0px', threshold: 0 }
     );
     projectsObserver.observe(projectsSection);
   }
